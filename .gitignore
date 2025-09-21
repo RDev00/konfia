@@ -1,0 +1,9 @@
+# Extras que no se usan. Solo prevencion
+.vscode/
+npm/
+pnpm/
+npx/
+
+# Librerias y datos privados
+.env
+node_modules/

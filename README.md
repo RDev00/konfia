@@ -1,2 +1,10 @@
 # invexpress
-Un controlador de inventario y punto de venta simple y practico para los usuarios que no pueden costear uno.
+
+## Descripcion:
+Backend para el control de los usuarios. Los datos de estos mismos como informacion de productos permanece segura, pues el backend solo guarda el nombre de usuario, y listo.
+
+## Metas:
+- Crear el backend con ExpressJS
+- Agregar Supabase de BD
+- Crear rutas para crear, borrar y editar los usuarios
+- Dar administracion libre de estos mismos
