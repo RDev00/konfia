@@ -81,6 +81,98 @@ router.post('/login', async (req, res) => {
 	} catch (error) {
 		res.status(500).json({ message: "Ha ocurrido un error con el servidor", error: error.message });
 	}
-})
+});
+
+// --- NO TESTEADO ---
+//Ruta de edicion de cuenta
+router.put('/update', async (req, res) => {
+	try {
+		//Obtenemos los datos que el usuario quiera cambiar
+		const [ usertag, password ] = req.body;
+
+		//Obtenemos el token del usuario
+		const token = req.headers.authorization;
+
+		if(!token) return res.status(401).json({ message: "Credenciales no ingresadas" });
+
+		//decodificamos el token
+		const decode = jwt.verify(token, key);
+
+		//Verificamos que se haya decodificado
+		if(!decode) return res.status(401).json({ message: "Credenciales invalidas" });
+
+		//Obtenemos los datos de la tienda
+		const store = decode.store;
+
+		//Si el usuario quiere cambiar el nombre de usuario entonces hacemos lo siguiente:
+		//Verificamos que quiere cambiar solo el nombre de usuario
+		if( usertag ) {
+			//Seleccionamos el nombre de la tienda
+			const { data: userdata , error: usererror } = await supabase
+			.from('users')
+			//Lo actualizamos
+			.update({ usertag: usertag })
+			//Seleccionamos el que sea igual
+			.eq('store', store)
+			.select();
+
+			if(usererror) return res.status(500).json({ message: "Ha ocurrido un error con el servidor" });
+
+			return res.status(200).json({ message: "Datos actualizados correctamente", data: userdata, newusertag: usertag });
+		} else if( password ) {
+			//hasheamos la password
+			const newSalt = 10;
+			const newHashed = await bcrypt.hash(password, newSalt);
+
+			const { data: passworddata , error: passworderror } = await supabase
+			.from('users')
+			.update({ password: newHashed })
+			.eq('store', store)
+			.select();
+
+			if(passworderror) return res.status(500).json({ message: "Ha ocurrido un error con el servidor" });
+
+			return res.status(200).json({ message: "Datos actualizados correctamente", data: passworddata, newpassword: password });
+		}
+
+
+	} catch (error) {
+		res.status(500).json({ message: "Ha ocurrido un error con el servidor", error: error.message });
+	}
+});
+
+//Ruta para obtener los usuarios
+router.get('/users', async (req, res) => {
+	try {
+		//Obtenemos todos los datos de users
+		const { data, error } = await supabase
+		.from('users')
+		.select('*');
+
+		if(error) return res.status(500).json({ message: "Ha ocurrido un error con el servidor" });
+
+		res.status(200).json({ message: "Datos obtenidos", users: data });
+	} catch (error) {
+		res.status(500).json({ message: "Ha ocurrido un error con el servidor", error: error.message });
+	}
+});
+
+//Ruta para obtener a solo un usuario
+router.get('/users/:id', async (req, res) => {
+	try {
+		const id = req.params;
+
+		const { data, error } = await supabase
+		.from('users')
+		.eq( 'id': id )
+		.select();
+
+		if(error) return res.status(500).json({ message: "Ha ocurrido un error con el servidor" });
+
+		res.status(200).json({ message: "Datos obtenidos", users: data });
+	} catch (error) {
+		res.status(500).json({ message: "Ha ocurrido un error con el servidor", error: error.message });
+	}
+});
 
 module.exports = router;
