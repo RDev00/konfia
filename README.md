@@ -1,18 +1,21 @@
 # Invexpress
 
 ## Descripcion:
-Backend para el control de los usuarios. Los datos de estos mismos como informacion de productos permanece segura, pues el backend solo guarda el nombre de usuario, y listo.
+Frontend para la interaccion del usuario. La gran mayoria de la logica de la web va a funcionar dentro de aqui.
 
 ## Metas:
-- Crear el backend con ExpressJS
-- Agregar Supabase de BD
-- Crear rutas para crear, borrar y editar los usuarios
-- Dar administracion libre de estos mismos
+- Crear los botones de interaccion
+- Crear un registrador de barras registradoras
+- Crear un inventariado
+- Crear login, register y acceso a la configuracion de cuentas funcional
+- Crear modo claro y oscuro
 
 ## Lenguajes:
 - JavaScript
 - NodeJS
-- SQL
+- HTML
+- CSS
 
 ## Frameworks:
-- Express
+- React: Interfaces y botones
+- TailwindCSS: Diseno de interfaz
