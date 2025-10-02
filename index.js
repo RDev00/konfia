@@ -7,6 +7,7 @@ const app = express();
 
 //Rutas
 const auth = require('./routes/auth.controller.js');
+const data = require('./routes/data.controller.js');
 
 //Puerto
 const port = process.env.PORT;
@@ -17,6 +18,8 @@ app.use(cors());
 
 //Seccion de cuentas
 app.use('/account', auth);
+//Seccion de datos
+app.use('/data', data);
 
 //Verificacon
 app.use((err, req, res, next) => {

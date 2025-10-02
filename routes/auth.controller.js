@@ -150,6 +150,8 @@ router.get('/users', async (req, res) => {
 
 		if(error) return res.status(500).json({ message: "Ha ocurrido un error con el servidor" });
 
+		if(!data || data.length <= 0) return res.status(404).json({ message: "No hay cuentas resgitradas actualmente" })
+
 		res.status(200).json({ message: "Datos obtenidos", users: data });
 	} catch (error) {
 		res.status(500).json({ message: "Ha ocurrido un error con el servidor", error: error.message });
@@ -173,6 +175,34 @@ router.get('/users/:id', async (req, res) => {
 		res.status(200).json({ message: "Datos obtenidos", user: user });
 	} catch (error) {
 		res.status(500).json({ message: "Ha ocurrido un error con el servidor", error: error.message });
+	}
+});
+
+//Seccion para borrar cuenta
+router.delete('/delete', async(req, res) => {
+	try {
+		const token = req.headers.authorization;
+
+		if(!token) return res.status(401).json({ message: "Credenciales no ingresadas" });
+
+		const decode = jwt.verify(token, key);
+
+		if(!decode) return res.status(401).json({ message: "Credenciales invalidas" });
+
+		const store = decode.store;
+
+		const { error } = await supabase
+		.from('users')
+		//Funcion para eliminar el usuario
+		.delete()
+		.eq('store', store);
+
+		if(error) return res.status(500).json({ message: "Ha ocurrido un error al borrar la cuenta", error: error.message });
+
+		res.status(200).json({ message: "Cuenta eliminada exitosamente" });
+
+	} catch (error) {
+		res.status(500).json({ message: "Ha ocurrido un error al borrar la cuenta", error: error.message });
 	}
 });
 
