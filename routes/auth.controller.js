@@ -83,12 +83,11 @@ router.post('/login', async (req, res) => {
 	}
 });
 
-// --- NO TESTEADO ---
 //Ruta de edicion de cuenta
 router.put('/update', async (req, res) => {
 	try {
 		//Obtenemos los datos que el usuario quiera cambiar
-		const [ usertag, password ] = req.body;
+		const { usertag, password } = req.body;
 
 		//Obtenemos el token del usuario
 		const token = req.headers.authorization;
@@ -145,9 +144,9 @@ router.put('/update', async (req, res) => {
 router.get('/users', async (req, res) => {
 	try {
 		//Obtenemos todos los datos de users
-		const { data, error } = await supabase
-		.from('users')
-		.select('*');
+		let { data, error } = await supabase
+		  .from('users')
+		  .select('*');
 
 		if(error) return res.status(500).json({ message: "Ha ocurrido un error con el servidor" });
 
@@ -158,18 +157,20 @@ router.get('/users', async (req, res) => {
 });
 
 //Ruta para obtener a solo un usuario
+//Ejemplo de uso:
+// http://localhost:2345/account/users?id=5
 router.get('/users/:id', async (req, res) => {
 	try {
-		const id = req.params;
+		const id = req.params.id;
 
-		const { data, error } = await supabase
+		const { data: user, error } = await supabase
 		.from('users')
-		.eq( 'id': id )
-		.select();
+		.select('*')
+		.eq('id', id);
 
 		if(error) return res.status(500).json({ message: "Ha ocurrido un error con el servidor" });
 
-		res.status(200).json({ message: "Datos obtenidos", users: data });
+		res.status(200).json({ message: "Datos obtenidos", user: user });
 	} catch (error) {
 		res.status(500).json({ message: "Ha ocurrido un error con el servidor", error: error.message });
 	}
