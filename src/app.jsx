@@ -1,17 +1,8 @@
-//Immportacion de configuracion
+//Importacion de configuracion
 import { Routes, Route } from 'react-router-dom';
 
-//Ejemplo de elementos
-function Home() {
-	return (
-		<h1 className="text-red-500"> Hello, world! </h1>
-	)
-}
-function Error() {
-	return (
-		<h1> Error example </h1>
-	)
-}
+//Importacion de elementos
+import Home from './pages/home';
 
 //Creacion del elemento de rutas rutas
 function App(){
@@ -19,7 +10,7 @@ function App(){
 		<Routes>
 			{ /*Ejemplo de rutas*/ }
 			<Route path="/" element={ <Home /> } />
-			<Route path="/*" element={ <Error /> } />
+			<Route path="/*" element={ <h1> Error example </h1> } />
 		</Routes>
 	)
 }
