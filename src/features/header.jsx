@@ -5,20 +5,29 @@ import { useRef } from 'react';
 function Header(props) {
   const navSection = useRef(null);
 
-  //Funcion para togglear el nav
-  function toggleNav() {
-    //Buscar si el nav tiene la clase
-    if(1 != 1){
-      //Si tiene la clase lo cambiamos a hidden
-    } else {
-      //Sino eliminamos hidden
-    }
+  function openNav() {
+    navSection.current.classList.add('flex');
+    navSection.current.classList.remove('hidden');
+    navSection.current.classList.add('slide-right');
+    navSection.current.classList.remove('slide-left');
   }
 
+  function closeNav() {
+  navSection.current.classList.remove('slide-right');
+  navSection.current.classList.add('slide-left');  
+  const handleAnimationEnd = () => {
+    navSection.current.classList.remove('flex');
+    navSection.current.classList.add('hidden');
+    navSection.current.removeEventListener('animationend', handleAnimationEnd);
+  };
+  
+  navSection.current.addEventListener('animationend', handleAnimationEnd);
+}
+
   return (
-    <header>
-      <NavButton function={() => { toggleNav }} />
-      <NavSection ref={navSection} />
+    <header className="bg-[#2f4156] px-[1rem] py-[0.5rem] z-2">
+      <NavButton function={() => openNav()} />
+      <NavSection ref={navSection} function={() => closeNav()} />
     </header>
   )
 }
