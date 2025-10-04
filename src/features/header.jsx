@@ -1,5 +1,6 @@
 import NavButton from '../components/navButton';
 import NavSection from '../components/navSection';
+import HomePageLogin from '../components/homepage-login';
 import { useRef } from 'react';
 
 function Header(props) {
@@ -8,13 +9,13 @@ function Header(props) {
   function openNav() {
     navSection.current.classList.add('flex');
     navSection.current.classList.remove('hidden');
-    navSection.current.classList.add('slide-right');
-    navSection.current.classList.remove('slide-left');
+    navSection.current.classList.remove('slide-right');
+    navSection.current.classList.add('slide-left');
   }
 
   function closeNav() {
-  navSection.current.classList.remove('slide-right');
-  navSection.current.classList.add('slide-left');  
+  navSection.current.classList.add('slide-right');
+  navSection.current.classList.remove('slide-left');  
   const handleAnimationEnd = () => {
     navSection.current.classList.remove('flex');
     navSection.current.classList.add('hidden');
@@ -27,6 +28,7 @@ function Header(props) {
   return (
     <header className="bg-[#2f4156] px-[1rem] py-[0.5rem] z-2">
       <NavButton function={() => openNav()} />
+        <HomePageLogin />
       <NavSection ref={navSection} function={() => closeNav()} />
     </header>
   )
