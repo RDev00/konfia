@@ -26,7 +26,7 @@ function Header(props) {
 }
 
   return (
-    <header className="bg-sky-900 px-[1rem] py-[0.5rem] z-2">
+    <header className="bg-sky-900 px-[1rem] py-[0.5rem] 2xl:px-[1dvw] 2xl:py-[0.5dvw] z-2">
       <NavButton function={() => openNav()} />
         <HomePageLogin />
       <NavSection ref={navSection} function={() => closeNav()} />

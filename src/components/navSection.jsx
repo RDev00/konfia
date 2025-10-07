@@ -1,7 +1,7 @@
 import ListItem from './subcomponents/listItem';
 
 function NavSection(props) {
-  function redirectToRegister() { window.location.href = '/register' }
+  function redirectToLogin() { window.location.href = '/login' }
 
   return (
     <section ref={props.ref} className="z-5 fixed flex justify-start items-center gap-4 flex-col bg-[#F5EFEB] text-black w-full md:w-auto md:max-w-[50dvw] py-[1rem] min-h-[100dvh] top-0 left-0 hidden">
@@ -17,7 +17,7 @@ function NavSection(props) {
         <ListItem text="Informa un error" link="/report" />
       </ul>
 
-      <button type="button" onClick={() => redirectToRegister()} className="mt-auto cursor-pointer border border-black w-[80%] rounded-md py-1 bg-black text-white duration-250 hover:scale-110"> Registrarme </button>
+      <button type="button" onClick={() => redirectToLogin()} className="mt-auto cursor-pointer border border-black w-[80%] rounded-md py-1 bg-black text-white duration-250 hover:scale-110"> Iniciar Sesión </button>
 
     </section>
   )
