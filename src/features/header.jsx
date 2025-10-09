@@ -1,6 +1,5 @@
 import NavButton from '../components/navButton';
 import NavSection from '../components/navSection';
-import HomePageLogin from '../components/homepage-login';
 import { useRef } from 'react';
 
 function Header(props) {
@@ -28,7 +27,7 @@ function Header(props) {
   return (
     <header className="bg-sky-900 px-[1rem] py-[0.5rem] 2xl:px-[1dvw] 2xl:py-[0.5dvw] z-2">
       <NavButton function={() => openNav()} />
-        <HomePageLogin />
+        {props.children}
       <NavSection ref={navSection} function={() => closeNav()} />
     </header>
   )

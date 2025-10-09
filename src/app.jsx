@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 
 //Importacion de elementos
 import Home from './pages/home';
+import ErrorPage from './pages/errorPage';
 
 //Creacion del elemento de rutas rutas
 function App(){
@@ -10,7 +11,7 @@ function App(){
 		<Routes>
 			{ /*Ejemplo de rutas*/ }
 			<Route path="/" element={ <Home /> } />
-			<Route path="/*" element={ <h1> Error example </h1> } />
+			<Route path="/*" element={ <ErrorPage /> } />
 		</Routes>
 	)
 }

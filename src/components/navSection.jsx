@@ -1,6 +1,15 @@
 import ListItem from './subcomponents/listItem';
+import { useRef, useEffect } from 'react';
 
 function NavSection(props) {
+  const loginButton = useRef(null);
+
+  const account = "";
+
+  useEffect(() => {
+    if(!account) { loginButton.current.classList.add('hidden'); }
+  })
+
   function redirectToLogin() { window.location.href = '/login' }
 
   return (
@@ -17,7 +26,7 @@ function NavSection(props) {
         <ListItem text="Informa un error" link="/report" />
       </ul>
 
-      <button type="button" onClick={() => redirectToLogin()} className="mt-auto cursor-pointer border border-black w-[80%] rounded-md py-1 bg-black text-white duration-250 hover:scale-110"> Iniciar Sesión </button>
+      <button type="button" ref={loginButton} onClick={() => redirectToLogin()} className="mt-auto cursor-pointer border border-black w-[80%] rounded-md py-1 bg-black text-white duration-250 hover:scale-110"> Iniciar Sesión </button>
 
     </section>
   )
