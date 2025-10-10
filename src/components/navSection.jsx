@@ -25,7 +25,7 @@ function NavSection(props) {
       </button>
 
       <h2 className="text-black text-center text-xl font-bold"> Configuracion </h2>
-      <ul className="list-none">
+      <ul className="list-none w-full">
         <ListItem text="Acerca de nosotros" link="/about" />
         <ListItem text="Configuracion" link="/settings" />
         <ListItem text="Informa un error" link="/report" />

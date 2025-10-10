@@ -12,7 +12,7 @@ function App(){
 		<Routes>
 			{ /*Ejemplo de rutas*/ }
 			<Route path="/" element={ <Home /> } />
-			<Route path="/dashboard" element={ <Dasboard /> } />
+			<Route path="/dashboard" element={ <Dashboard /> } />
 			<Route path="/*" element={ <ErrorPage /> } />
 		</Routes>
 	)
