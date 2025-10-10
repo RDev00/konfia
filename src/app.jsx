@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 //Importacion de elementos
 import Home from './pages/home';
 import ErrorPage from './pages/errorPage';
+import Dashboard from './pages/dashboard';
 
 //Creacion del elemento de rutas rutas
 function App(){
@@ -11,6 +12,7 @@ function App(){
 		<Routes>
 			{ /*Ejemplo de rutas*/ }
 			<Route path="/" element={ <Home /> } />
+			<Route path="/dashboard" element={ <Dasboard /> } />
 			<Route path="/*" element={ <ErrorPage /> } />
 		</Routes>
 	)

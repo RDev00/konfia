@@ -1,13 +1,18 @@
 import ListItem from './subcomponents/listItem';
 import { useRef, useEffect } from 'react';
+import getCookie from '../functions/getCookie.js';
 
 function NavSection(props) {
   const loginButton = useRef(null);
 
-  const account = "";
+  let account = false;
+
+  const cookieExist = getCookie('authentification');
+  if(cookieExist) { account = true }
+    else { account = false };
 
   useEffect(() => {
-    if(!account) { loginButton.current.classList.add('hidden'); }
+    if(account === true) { loginButton.current.classList.add('hidden'); }
   })
 
   function redirectToLogin() { window.location.href = '/login' }
