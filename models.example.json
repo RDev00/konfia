@@ -1,0 +1,20 @@
+{
+	"msg" : "modelos para tiendas y usuarios comunes. Pueden no ser 100% fieles y recibir cambios por lo que debes tomar esta informacion como una base.",
+	"store" : [
+		"id",
+		"username",
+		"storename",
+		"password",
+		{ "data" : [ "clients-data", "credits-active", "credits-finished", "reviews", "historial" ] }
+	],
+	"user" : [
+		"id",
+		"username",
+		"password",
+		"calification",
+		"stores-comments",
+		"credits-active",
+		"credits-finished",
+		"historial"
+	]
+}

@@ -3,11 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 require('dotenv').config();
+//Agregacion de mongoose para MongoDB
+const mongoose = require('mongoose');
 const app = express();
-
-//Rutas
-const auth = require('./routes/auth.controller.js');
-const data = require('./routes/data.controller.js');
 
 //Puerto
 const port = process.env.PORT;
@@ -16,10 +14,16 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(cors());
 
-//Seccion de cuentas
-app.use('/account', auth);
-//Seccion de datos
-app.use('/data', data);
+//Conexión a MongoDB
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log('Conectado a MongoDB'))
+.catch((err) => {
+  console.error('Error de conexión a MongoDB:', err);
+  process.exit(1); //termina el server si no conecta
+});
 
 //Verificacon
 app.use((err, req, res, next) => {
@@ -29,5 +33,5 @@ app.use((err, req, res, next) => {
 
 //Abertura de puerto
 app.listen(port, () => {
-	console.log(`Servidor escuchando en: ${port}`);
+  console.log(`Servidor escuchando en: ${port}`);
 });
