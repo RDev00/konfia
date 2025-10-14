@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/home';
 import ErrorPage from './pages/errorPage';
 import Dashboard from './pages/dashboard';
+import Login from './pages/login'
 
 //Creacion del elemento de rutas rutas
 function App(){
@@ -14,6 +15,7 @@ function App(){
 			<Route path="/" element={ <Home /> } />
 			<Route path="/dashboard" element={ <Dashboard /> } />
 			<Route path="/*" element={ <ErrorPage /> } />
+			<Route path="/Login" element={ <Login /> } />
 		</Routes>
 	)
 }
