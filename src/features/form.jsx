@@ -1,11 +1,19 @@
+import Usuario from "../components/usuario";
+import Contraseña from "../components/contraseña-login";
+import Logbutton from "../components/logButton";
+
 function Form(props) {
     return(
-        <form className="">
-            <h2> INVEXPRESS{/*Nombre de la app */} </h2>
+        <div className="flex items-center justify-center min-h-screen bg-grey-100">
+            <form className="bg-white p-6 rounded-2xl shadow-lg w-80">
+            <h2 className="flex items-center justify-center text-black"> INVEXPRESS{/*Nombre de la app */} </h2>
             {props.children}
-            <button></button> {/*Agregar opcion para agregar texto */}
+            <Usuario />
+            <Contraseña />
+            <Logbutton />{/*Agregar opcion para agregar texto */}
             <p></p> {/*Agregar opcion de ref */}
-        </form>
+            </form>
+        </div>
     )
 }
 
