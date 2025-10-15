@@ -4,6 +4,7 @@ import Logbutton from "../components/logButton";
 import { useRef } from 'react';
 
 function Form(props) {
+
     return(
         <div className="flex items-center justify-center min-h-screen bg-grey-100">
             <form className="flex flex-col gap-6 bg-white p-6 rounded-2xl shadow-lg w-80">
