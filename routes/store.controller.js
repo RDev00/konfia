@@ -21,7 +21,7 @@ router.post('/register', async (req, res) => {
       password: hashedPassword
     });
 
-    newUser.save();
+    await newUser.save();
 
     res.status(200).json({ message: "Usuario registrado con existente" });
   } catch (error) {
@@ -34,10 +34,37 @@ router.post('/login', async (req, res) => {
     const { storename, password } = req.body;
 
     const storeData = await StoreModel.findOne({ storename : storename });
+    if(!storeData) return res.status(404).json({ message: "La cuenta no existe" });
+
     const isMatch = bcrypt.compare(password, storeData.password);
     if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
 
     res.status(200).json({ message : "Inicio de sesión exitoso" })
+  } catch (error) {
+    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
+  }
+});
+
+router.put('/update', async (req, res) => {
+  try {
+    const { storename, username, password } = req.body;
+    if((!username && !password) || storename) return res.status(404).json({ message: "Datos no ingresados" });
+
+    if(username && !password) {
+      await StoreModel.updateOne({storename : storename}, {username : username});
+    } else if(password && !username) {
+      const salt = 10;
+      const passwordHashed = bcrypt.hash(password, salt)
+      
+      await StoreModel.updateOne({storename: storename}, {password : passwordHashed});
+    } else {
+      const salt = 10;
+      const passwordHashed = bcrypt.hash(password, salt)
+      
+      await StoreModel.updateOne({storename: storename}, {username : username, password : passwordHashed});
+    }
+
+    return res.status(200).json({ message: "Datos actualizados con exito" });
   } catch (error) {
     res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
   }
