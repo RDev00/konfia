@@ -4,23 +4,21 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 require('dotenv').config();
 const passkey = process.env.PASSKEY;
-const StoreModel = require('../models/store.model');
+const UserModel = require('../models/user.model');
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, storename, password } = req.body;
-    if(!storename || !password) return res.status(404).json({ message: "Datos no ingresados" });
-    if(!username) return username = null;
+    const { username, password } = req.body;
+    if(!username || !password) return res.status(404).json({ message: "Datos no ingresados" });
 
-    const verify = await StoreModel.findOne({ storename : storename });
+    const verify = await UserModel.findOne({ username : username });
     if(verify) return res.status(500).json({ message: "Cuenta ya existente" });
 
     const salt = 10;
     const hashedPassword = bcrypt.hash(password, salt);
 
-    const newUser = new StoreModel({
+    const newUser = new UserModel({
       username: username,
-      storename: storename,
       password: hashedPassword
     });
 
@@ -34,15 +32,15 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const { storename, password } = req.body;
+    const { username, password } = req.body;
 
-    const storeData = await StoreModel.findOne({ storename : storename });
-    if(!storeData) return res.status(404).json({ message: "La cuenta no existe" });
+    const userdata = await UserModel.findOne({ username : username });
+    if(!userdata) return res.status(404).json({ message: "La cuenta no existe" });
 
-    const isMatch = bcrypt.compare(password, storeData.password);
+    const isMatch = bcrypt.compare(password, userdata.password);
     if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
 
-    const token = jwt.sign({ id: storeData._id }, passkey, { expiresIn :'168h' });
+    const token = jwt.sign({ id: userdata._id }, passkey, { expiresIn :'168h' });
 
     res.status(200).json({ message: "Inicio de sesión exitoso", token: token })
   } catch (error) {
@@ -50,34 +48,26 @@ router.post('/login', async (req, res) => {
   }
 });
 
+
 router.put('/update', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { password } = req.body;
     const token = req.headers.authentification;
 
     const decode = jwt.verify(token, passkey);
-    const storedata = await StoreModel.findById(decode.id);
-    if(!storedata) return res.status(404).json({ message: "Tienda no encontrada" });
-    const storename = storedata.storename;
+    const userdata = await UserModel.findById(decode.id);
+    if(!userdata) return res.status(404).json({ message: "Usuario no encontrado" });
+    const username = userdata.username;
 
     if(!username && !password) return res.status(404).json({ message: "Datos no ingresados" });
 
-    const isMatch = bcrypt.compare(password, storeData.password);
+    const isMatch = bcrypt.compare(password, userdata.password);
     if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
 
-    if(username && !password) {
-      await StoreModel.updateOne({storename : storename}, {username : username});
-    } else if(password && !username) {
-      const salt = 10;
-      const passwordHashed = bcrypt.hash(password, salt)
-      
-      await StoreModel.updateOne({storename: storename}, {password : passwordHashed});
-    } else {
-      const salt = 10;
-      const passwordHashed = bcrypt.hash(password, salt)
-      
-      await StoreModel.updateOne({storename: storename}, {username : username, password : passwordHashed});
-    }
+    const salt = 10;
+    const passwordHashed = bcrypt.hash(password, salt)
+    
+    await UserModel.updateOne({username: username}, {username : username, password : passwordHashed});
 
     return res.status(200).json({ message: "Datos actualizados con exito" });
   } catch (error) {
@@ -90,10 +80,11 @@ router.delete('/delete', async (req, res) => {
     const token = req.headers.authentification;
 
     const decode = jwt.verify(token, passkey);
-    const storedata = await StoreModel.findById(decode.id);
-    if(!storedata) return res.status(404).json({ message: "Tienda no encontrada" });
+    const userdata = await UserModel.findById(decode.id);
+    if(!userdata) return res.status(404).json({ message: "Usuario no encontrado" });
+    const username = userdata.username;
 
-    await StoreModel.findByIdAndDelete(decode.id);
+    await UserModel.findByIdAndDelete(decode.id);
 
     res.status(200).json({ message: "Cuenta borrada con exito" });
   } catch (error) {
@@ -103,9 +94,9 @@ router.delete('/delete', async (req, res) => {
 
 router.get('/get', async (req, res) => {
   try {
-    const stores = await StoreModel.find();
+    const users = await UserModel.find();
 
-    res.status(200).json({ message: "Datos obtenidos", data: stores });
+    res.status(200).json({ message: "Datos obtenidos", data: users });
   } catch (error) {
     res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
   }
@@ -115,10 +106,10 @@ router.get('/get/:id', async (req, res) => {
   try {
     const id = req.params;
 
-    const store = await StoreModel.findById(id);
-    if(!store) return res.status(404).json({ message: "La cuenta no existe"});
+    const user = await UserModel.findById(id);
+    if(!user) return res.status(404).json({ message: "La cuenta no existe"});
 
-    res.status(200).json({ message: "Datos obtenidos", data: stores });
+    res.status(200).json({ message: "Datos obtenidos", data: user });
   } catch (error) {
     res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
   }

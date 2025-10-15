@@ -7,15 +7,20 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const app = express();
 
+//importacion de rutas
+const storeroute = require('./routes/store.controller');
+const userroute = require('./routes/auth.controller');
+
 //Puerto
 const port = process.env.PORT;
-
-const StoreModel = require('./models/store.model.js');
-const UserModel = require('./models/user.model');
 
 //Configuracion
 app.use(express.json());
 app.use(cors());
+
+//Rutas
+app.use('/store', storeroute);
+app.use('/users', userroute);
 
 //Conexión a MongoDB
 mongoose.connect(process.env.MONGODB_URI)
