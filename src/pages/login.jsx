@@ -1,14 +1,18 @@
 import Headerlog from "../features/headerlogin";
 import Footer from "../features/footer";
 import Form from "../features/form";
+import Input from "../components/input";
 
 
 function Login () {
     return(
-        <div className="bg-sky-950 text-white min-h-[100dvh] grid grid-rows-[auto_1fr_auto]">
-            <Headerlog></Headerlog>
-            <Form />
-            <footer />
+        <div className="text-white min-h-[100dvh] grid grid-rows-[auto_1fr_auto]">
+            <Headerlog />
+            <Form>
+            <Input type="text" text="Usuario" name="usuario" />
+            <Input type="password" text="Contraseña" name="contraseña" className="mb-12" />
+            </Form>
+            <Footer />
         </div>
     )
 }
