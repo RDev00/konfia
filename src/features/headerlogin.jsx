@@ -1,4 +1,3 @@
-import NavButton from '../components/navButton';
 import NavSection from '../components/navSection';
 import { useRef } from 'react';
 
@@ -26,8 +25,7 @@ function Header(props) {
 
   return (
     <header className="bg-emerald-200 px-[1rem] py-[0.5rem] 2xl:px-[1dvw] 2xl:py-[0.5dvw] z-2">
-      <h2 className='absolute top-[50%] left-[50%] transform-[translate(-50%,-55%)]>'>KONFIA</h2>
-      <NavButton function={() => openNav()} />
+      <h1>KONFIA</h1>
         {props.children}
       <NavSection ref={navSection} function={() => closeNav()} />
     </header>
