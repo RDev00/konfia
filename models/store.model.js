@@ -2,12 +2,6 @@ const mongoose = require('mongoose');
 
 //Modelo de tienda
 const StoreModelSchema = new mongoose.Schema({
-	/*Ejemplo:
-	Nombre:{
-	type: (variable),
-	required: (boolean),
-	default: (valor),\
-	unique: (boolean) }*/
 
 	//Nombre de usuario
 	username : { type: String, default: "tienda" },

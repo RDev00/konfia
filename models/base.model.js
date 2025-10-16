@@ -1,4 +1,10 @@
 const mongoose = require('mongoose');
+  /*Ejemplo:
+  Nombre:{
+  type: (variable),
+  required: (boolean),
+  default: (valor),\
+  unique: (boolean) }*/
 
 const BaseModelSchema = new mongoose.Schema({
   stringField: { type: String, required: true },              // Cadena de texto

@@ -10,6 +10,7 @@ const app = express();
 //importacion de rutas
 const storeroute = require('./routes/store.controller');
 const userroute = require('./routes/auth.controller');
+const dataroute = require('./routes/data.controller');
 
 //Puerto
 const port = process.env.PORT;
@@ -21,6 +22,7 @@ app.use(cors());
 //Rutas
 app.use('/store', storeroute);
 app.use('/users', userroute);
+app.use('/data', dataroute);
 
 //Conexión a MongoDB
 mongoose.connect(process.env.MONGODB_URI)
