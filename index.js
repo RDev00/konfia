@@ -11,6 +11,7 @@ const app = express();
 const storeroute = require('./routes/store.controller');
 const userroute = require('./routes/auth.controller');
 const dataroute = require('./routes/data.controller');
+const creditroute = require('./routes/credit.controller');
 
 //Puerto
 const port = process.env.PORT;
@@ -23,6 +24,7 @@ app.use(cors());
 app.use('/store', storeroute);
 app.use('/users', userroute);
 app.use('/data', dataroute);
+app.use('/credit', creditroute);
 
 //Conexión a MongoDB
 mongoose.connect(process.env.MONGODB_URI)

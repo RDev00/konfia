@@ -7,10 +7,8 @@ const StoreModel = require('../models/store.model');
 const UserModel = require('../models/user.model');
 
 const passkey = process.env.PASSKEY;
-//Dar reviews a usuarios y tiendas, como poder eliminarlas
-//Actualizar la calificacion del usuario y las reviews que tiene este mismo
 
-//Review de tienda
+//Review de tienda a usuario (ambos se guardan)
 router.post('/review', async (req, res) => {
   try {
     const { user, calification, comment, average } = req.body;
@@ -33,7 +31,7 @@ router.post('/review', async (req, res) => {
 
     await UserModel.findByIdAndUpdate(
       exists._id,
-      { $set: { average: average } }
+      { $set: { calification: average } }
     );
 
     res.status(200).json({ message: "Review hecha con exito" });

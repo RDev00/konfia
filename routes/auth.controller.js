@@ -24,7 +24,7 @@ router.post('/register', async (req, res) => {
 
     await newUser.save();
 
-    res.status(200).json({ message: "Usuario registrado con existente" });
+    res.status(200).json({ message: "Usuario registrado con exito" });
   } catch (error) {
     res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
   }
@@ -82,7 +82,6 @@ router.delete('/delete', async (req, res) => {
     const decode = jwt.verify(token, passkey);
     const userdata = await UserModel.findById(decode.id);
     if(!userdata) return res.status(404).json({ message: "Usuario no encontrado" });
-    const username = userdata.username;
 
     await UserModel.findByIdAndDelete(decode.id);
 
