@@ -15,7 +15,7 @@ router.post('/register', async (req, res) => {
     if(verify) return res.status(500).json({ message: "Cuenta ya existente" });
 
     const salt = 10;
-    const hashedPassword = bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new UserModel({
       username: username,
@@ -37,7 +37,7 @@ router.post('/login', async (req, res) => {
     const userdata = await UserModel.findOne({ username : username });
     if(!userdata) return res.status(404).json({ message: "La cuenta no existe" });
 
-    const isMatch = bcrypt.compare(password, userdata.password);
+    const isMatch = await bcrypt.compare(password, userdata.password);
     if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
 
     const token = jwt.sign({ id: userdata._id }, passkey, { expiresIn :'168h' });
@@ -61,7 +61,7 @@ router.put('/update', async (req, res) => {
 
     if(!username && !password) return res.status(404).json({ message: "Datos no ingresados" });
 
-    const isMatch = bcrypt.compare(password, userdata.password);
+    const isMatch = await bcrypt.compare(password, userdata.password);
     if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
 
     const salt = 10;
