@@ -52,7 +52,7 @@ router.post('/create', async (req, res) => {
   }
 });
 
-router.post('/update', async (req, res) => {
+router.put('/update', async (req, res) => {
   try {
     const { user, payment, creditId } = req.body;
     const token = req.headers.authorization;
