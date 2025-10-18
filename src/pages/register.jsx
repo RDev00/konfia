@@ -1,5 +1,6 @@
 import  Form  from "../features/form";
 import Input from "../components/input";
+import PasswordInput from "../components/passwordinput";
 import Header from "../features/header";
 import Footer from "../features/footer";
 
@@ -10,7 +11,8 @@ function Register(){
             <Form>
             <Input type="text" text="Usuario" name="usuario" />
             <Input type="email" text="example@gmail.com" name="email" />
-            <Input type="password" text="Contraseña" name="contraseña" className="mb-12" />
+            <PasswordInput type="password" text="Contraseña" name="contraseña" className="" />
+            <PasswordInput type="password" text="Confirmar Contraseña" name="repetir_contraseña" className="mb-12" />
             </Form>
             <Footer />
         </div>
