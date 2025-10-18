@@ -9,13 +9,13 @@ const UserModelSchema = new mongoose.Schema({
 	//Calificacion de reviews
 	calification : { type: Number, default: 0.0 },
 	//Comentarios de tiendas
-	storescomments : { type: Object, default: { "comments": {} } },
+	storescomments : { type: Object },
 	//Creditos activos
-	creditsactive : { type: Object, default: { "credits" : {} } },
+	creditsactive : { type: Object },
 	//Creditos terminados
-	creditsfinished : { type: Object, default: { "credits" : {} } },
+	creditsfinished : { type: Object },
 	//Historial
-	historial : { type: Object, default: { "data" : [] } },
+	historial : { type: Object },
 });
 
 module.exports = mongoose.model('UserModel', UserModelSchema);

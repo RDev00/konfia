@@ -53,7 +53,7 @@ router.post('/login', async (req, res) => {
 router.put('/update', async (req, res) => {
   try {
     const { username, password } = req.body;
-    const token = req.headers.authentification;
+    const token = req.headers.authorization;
 
     const decode = jwt.verify(token, passkey);
     const storedata = await StoreModel.findById(decode.id);
@@ -87,7 +87,7 @@ router.put('/update', async (req, res) => {
 
 router.delete('/delete', async (req, res) => {
   try {
-    const token = req.headers.authentification;
+    const token = req.headers.authorization;
 
     const decode = jwt.verify(token, passkey);
     const storedata = await StoreModel.findById(decode.id);

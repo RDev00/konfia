@@ -12,7 +12,7 @@ const passkey = process.env.PASSKEY;
 router.post('/review', async (req, res) => {
   try {
     const { user, calification, comment, average } = req.body;
-    const token = req.headers.authentification;
+    const token = req.headers.authorization;
     if (!user || !token || !calification || !comment || !average) {
       return res.status(400).json({ message: "No se ingresaron los datos" });
     }

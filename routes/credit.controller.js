@@ -7,13 +7,14 @@ const StoreModel = require('../models/store.model');
 const CreditModel = require('../models/credit.model');
 const UserModel = require('../models/user.model');
 const StoreModel = require('../models/store.model');
+const creditModel = require('../models/credit.model');
 
 const passkey = process.env.PASSKEY;
 
 router.post('/create', async (req, res) => {
   try {
     const { user, credit } = req.body;
-    const token = req.headers.authentification;
+    const token = req.headers.authorization;
 
     const userData = await UserModel.findOne({ username: user });
     if (!userData) return res.status(404).json({ message: "Usuario no existente" });
@@ -36,18 +37,13 @@ router.post('/create', async (req, res) => {
 
     await StoreModel.findByIdAndUpdate(
       storeData._id,
-      {
-        $push: {
-          clientsdata: { user: userData._id },
-          creditsactive: { credit: newCredit._id },
-        },
-      }
-    );
+      { $push: { clientsdata: { user: userData._id }, creditsactive: { credit: newCredit._id }}
+    });
 
     await UserModel.findByIdAndUpdate(
       userData._id,
-      { $push: { credits: newCredit._id } }
-    );
+      { $push: { credits: newCredit._id }
+    });
 
     res.status(201).json({ message: "Crédito creado exitosamente", credit: newCredit });
   } catch (error) {
@@ -56,6 +52,55 @@ router.post('/create', async (req, res) => {
   }
 });
 
-module.exports = router;
+router.post('/update', async (req, res) => {
+  try {
+    const { user, payment, creditId } = req.body;
+    const token = req.headers.authorization;
+
+    const userData = await UserModel.findOne({ username: user });
+    if (!userData) return res.status(404).json({ message: "Usuario no existente" });
+
+    const decode = jwt.verify(token, passkey);
+    if (!decode) return res.status(401).json({ message: "Credenciales inválidas" });
+
+    const storeData = await StoreModel.findById(decode.id);
+    if (!storeData) return res.status(404).json({ message: "Tienda no encontrada" });
+
+    const credit = await CreditModel.findById(creditId);
+    if(!credit) return res.status(400).json({ message : "Credito no existente" });
+    
+    const actualPayment = credit.payment + payment;
+    if(actualPayment >= credit.credit) {
+      await creditModel.findByIdAndUpdate(
+        creditId,
+        { $set : { isActive : false, payment : actualPayment } }
+      );
+      await StoreModel.findByIdAndUpdate(
+        decode.id,
+        { $push : { historial : { message: "Pago realizado", payment: payment, user: userData.username }, creditsfinished : creditId }
+      });
+    } else {
+      await creditModel.findByIdAndUpdate(
+        creditId,
+        { $set : { payment : actualPayment } }
+      );
+      await StoreModel.findByIdAndUpdate(
+        decode.id,
+        { $push : { historial : { message: "Pago realizado", payment: payment, user: userData.username } }
+      });
+    };
+
+    await UserModel.findByIdAndUpdate(
+      userData._id,
+      { $push : { historial : { message: "Pago realizado", payment: payment, store: storeData.storename } }
+    });
+
+    res.status(200).json({ message: "Credito actualizado exitosamente" });
+  } catch (error) {
+    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
+  }
+});
+
+
 
 module.exports = router;
