@@ -12,7 +12,7 @@ const CreditModelSchema = new mongoose.Schema({
 	//Cantidad de credito base
 	credit : { type: Number, required: true },
 	//Cantidad de pago actual
-	payment : { type: Number }
+	payment : { type: Number, default: 0.0 }
 });
 
 module.exports = mongoose.model('CreditModel', CreditModelSchema);

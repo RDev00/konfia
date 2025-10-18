@@ -22,7 +22,7 @@ app.use(cors());
 
 //Rutas
 app.use('/store', storeroute);
-app.use('/users', userroute);
+app.use('/user', userroute);
 app.use('/data', dataroute);
 app.use('/credit', creditroute);
 

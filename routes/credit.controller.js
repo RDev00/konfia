@@ -6,9 +6,6 @@ const jwt = require('jsonwebtoken');
 const StoreModel = require('../models/store.model');
 const CreditModel = require('../models/credit.model');
 const UserModel = require('../models/user.model');
-const StoreModel = require('../models/store.model');
-const creditModel = require('../models/credit.model');
-
 const passkey = process.env.PASSKEY;
 
 router.post('/create', async (req, res) => {
@@ -54,11 +51,8 @@ router.post('/create', async (req, res) => {
 
 router.put('/update', async (req, res) => {
   try {
-    const { user, payment, creditId } = req.body;
+    const { creditId, payment } = req.body;
     const token = req.headers.authorization;
-
-    const userData = await UserModel.findOne({ username: user });
-    if (!userData) return res.status(404).json({ message: "Usuario no existente" });
 
     const decode = jwt.verify(token, passkey);
     if (!decode) return res.status(401).json({ message: "Credenciales inválidas" });
@@ -68,10 +62,15 @@ router.put('/update', async (req, res) => {
 
     const credit = await CreditModel.findById(creditId);
     if(!credit) return res.status(400).json({ message : "Credito no existente" });
+
+    const userData = await UserModel.findOne({ username: credit.username });
+    if(!userData) return res.status(404).json({ message: "Cuenta de usuario no existente" });
     
-    const actualPayment = credit.payment + payment;
-    if(actualPayment >= credit.credit) {
-      await creditModel.findByIdAndUpdate(
+    const oldPayment = credit.payment || 0;
+    const actualPayment = oldPayment + payment;
+
+    if(actualPayment <= credit.credit) {
+      await CreditModel.findByIdAndUpdate(
         creditId,
         { $set : { isActive : false, payment : actualPayment } }
       );
@@ -80,7 +79,7 @@ router.put('/update', async (req, res) => {
         { $push : { historial : { message: "Pago realizado", payment: payment, user: userData.username }, creditsfinished : creditId }
       });
     } else {
-      await creditModel.findByIdAndUpdate(
+      await CreditModel.findByIdAndUpdate(
         creditId,
         { $set : { payment : actualPayment } }
       );
@@ -95,12 +94,51 @@ router.put('/update', async (req, res) => {
       { $push : { historial : { message: "Pago realizado", payment: payment, store: storeData.storename } }
     });
 
-    res.status(200).json({ message: "Credito actualizado exitosamente" });
+    const actualCredit = await CreditModel.findById(creditId);
+
+    res.status(200).json({ message: "Credito actualizado exitosamente", credit: actualCredit });
   } catch (error) {
     res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
   }
 });
 
+router.get('/get/:id', async (req, res) => {
+  try {
+    const id = req.params;
 
+    const credit = await CreditModel.findById(id);
+    if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
+
+    res.status(200).json({ message: "Credito obtenidos exitosamente", credit: credit });
+  } catch (error) {
+    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
+  }
+});
+
+router.get('/get/:user', async (req, res) => {
+  try {
+    const user = req.params;
+
+    const credit = await CreditModel.find({ username: user });
+    if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
+
+    res.status(200).json({ message: "Creditos obtenidos exitosamente", credit: credit });
+  } catch (error) {
+    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
+  }
+});
+
+router.get('/get/:store', async (req, res) => {
+  try {
+    const store = req.params;
+
+    const credit = await CreditModel.find({ store: store });
+    if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
+
+    res.status(200).json({ message: "Creditos obtenidos exitosamente", credit: credit });
+  } catch (error) {
+    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
+  }
+});
 
 module.exports = router;

@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 //Modelo de usuario
 const UserModelSchema = new mongoose.Schema({
 	//Nombre de usuario
-	username : { type: String, required: true, unique: true },
+	username : { type: String, default: "Usuario" },
+	//Identificador de usuario
+	usertag : { type: String, required: true, unique: true },
 	//Password
 	password : { type: String, required: true },
 	//Calificacion de reviews
