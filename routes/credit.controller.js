@@ -102,40 +102,30 @@ router.put('/update', async (req, res) => {
   }
 });
 
-router.get('/get/:id', async (req, res) => {
+router.get('/get', async (req, res) => {
   try {
-    const id = req.params;
+    const { id, user, store } = req.query;
 
-    const credit = await CreditModel.findById(id);
-    if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
+    if(id) {
+      const credit = await CreditModel.findById(id);
+      if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
 
-    res.status(200).json({ message: "Credito obtenidos exitosamente", credit: credit });
-  } catch (error) {
-    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
-  }
-});
+      res.status(200).json({ message: "Credito obtenido exitosamente", credit: credit });
+    } else if(user) {
+      const credit = await CreditModel.find({ username: user });
+      if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
 
-router.get('/get/:user', async (req, res) => {
-  try {
-    const user = req.params;
+      res.status(200).json({ message: "Creditos obtenidos exitosamente", credit: credit });
+    } else if(store) {
+      const credit = await CreditModel.find({ store: store });
+      if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
 
-    const credit = await CreditModel.find({ username: user });
-    if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
+      res.status(200).json({ message: "Creditos obtenidos exitosamente", credit: credit });
+    } else {
+      const credits = await CreditModel.find();
 
-    res.status(200).json({ message: "Creditos obtenidos exitosamente", credit: credit });
-  } catch (error) {
-    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
-  }
-});
-
-router.get('/get/:store', async (req, res) => {
-  try {
-    const store = req.params;
-
-    const credit = await CreditModel.find({ store: store });
-    if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
-
-    res.status(200).json({ message: "Creditos obtenidos exitosamente", credit: credit });
+      res.status(200).json({ message: "Creditos obtenidos correctamente", credits: credits });
+    }
   } catch (error) {
     res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
   }
