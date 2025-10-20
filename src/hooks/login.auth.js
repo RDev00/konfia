@@ -6,7 +6,7 @@ async function fetchFunction(json) {
   //Usamos try-catch por si llega a haber un error entre la conexion
   try {
     //Hacemos el fetch
-    const res = await fetch('http://localhost:2345/users/login', {
+    const res = await fetch('https://quickfiado-backend.onrender.com/users/login', {
       //Declaramos el metodo
       method: "POST",
       //Los headers (Como no require auth, no la agregamos)
