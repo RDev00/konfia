@@ -3,24 +3,17 @@ import { Routes, Route } from 'react-router-dom';
 
 //Importacion de elementos
 import Home from './pages/home';
-import ErrorPage from './pages/errorPage';
-import Dashboard from './pages/dashboard';
-import Login from './pages/login'
-import Register from './pages/register';
+import AccountCenter from './pages/account-center';
 
-//Creacion del elemento de rutas rutas
+//Creacion del elemento de rutas
 function App(){
 	return (
 		<Routes>
-			{ /*Ejemplo de rutas*/ }
+			{ /*Rutas*/ }
 			<Route path="/" element={ <Home /> } />
-			<Route path="/dashboard" element={ <Dashboard /> } />
-			<Route path="/*" element={ <ErrorPage /> } />
-			<Route path="/Login" element={ <Login /> } />
-			<Route path="/Register" element={ <Register /> } />
+			<Route path="/account-center" element={ <AccountCenter /> } />
 		</Routes>
 	)
 }
 
-//Exportacion de la app
 export default App;

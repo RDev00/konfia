@@ -8,8 +8,8 @@ Invexpress/
 │   └── images
 │       └── image.png
 ├── src/
-│   ├── features/
-│   │   └── Navbar.jsx
+│   ├── layouts/
+│   │   └── layout.jsx
 │		│
 │   ├── components/
 │   │   └── button.jsx

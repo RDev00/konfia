@@ -1,22 +1,38 @@
-import Header from '../features/header';
-import Footer from '../features/footer';
-import HomePage from '../features/homepage';
-import HomePageLogin from '../components/homepage-login';
+//Elementos
+import Layout from '../layouts/layout';
+import Header from '../components/header';
+import Footer from '../components/footer';
+import Button from '../components/button';
+import HomeMain from '../components/home-main';
 
-function Home() {
-  //Obtener la cookie de la cuenta
-  //Si tiene cuenta redirigir a dashboard
-  //Sino no hacer nada
+//Funciones
+import getCookie from '../functions/getCookie';
 
-  return (
-    <div className="bg-black text-white min-h-[100dvh] grid grid-rows-[auto_1fr_auto]">
-      <Header>
-        <HomePageLogin />
-      </Header>
-      <HomePage />
-      <Footer />
-    </div>
-  )
+export default function Home() {
+	const redirect = () => {
+		const cookie = getCookie('token');
+		let link = "";
+
+		if(cookie) {
+			const isUserOrStore = getCookie('userType');	
+			if (isUserOrStore === "user") { link = '/user'; }
+				else { link = '/store' }
+			window.location.href = `${link}/dashboard`;
+		}
+			else { window.location.href = "/account-center" }
+	}
+
+	return (
+		<Layout>
+			<Header>
+				<div className="ml-auto">
+					<Button text="Ingresar" function={() => redirect()} />
+				</div>
+			</Header>
+
+			<HomeMain />
+
+			<Footer />
+		</Layout>
+	)
 }
-
-export default Home;
