@@ -1,6 +1,6 @@
 Ejemplo de estrucurado del frontend
 
-Invexpress/
+Konfia/
 │
 ├── public/
 │   └── favicon.svg

@@ -25,14 +25,14 @@ export default function StoreLogin(){
 			let name = "";
 			if(input.name === "konfia-store-email") { name = "storename" }
 				else { name = "password" };
-		  body[name] = input.value.replace(/\s+/g, '');;
+		  body[name] = input.value.replace(/\s+/g, '');
 		});
 
 		const res = await login(body.storename, body.password);
 		form.current.classList.remove('disabled');
 		
 		message.current.innerText = res.message;
-		if(!token) return;
+		if(!res.token) return;
 
 		const expirationDate = new Date();
 		expirationDate.setDate(expirationDate.getDate() + 7);
@@ -45,7 +45,9 @@ export default function StoreLogin(){
 	return (
 		<LayoutForms>
 			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={() => HandleSubmit()}>
+
 				<Input type="store-email" name="store-email" text="Ingresa tu correo" guide="El correo no debe contener mayusculas, tambien debe ir todo el texto junto de la siguiente manera: example@konfia.com" />
+				
 				<PasswordInput name="store-password" text="Ingresa tu contraseña" guide="La contraseña no debe contener espacios" />
 			</FormLayout>
 		</LayoutForms>

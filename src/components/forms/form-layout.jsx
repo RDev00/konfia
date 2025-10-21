@@ -11,6 +11,7 @@ export default function FormLayout(props){
 				{props.submitText}
 			</button>
 			<p ref={props.messageRef} className="opacity-70 text-sm"> </p>
+			<p className="text-sm"> {props.redirection} </p>
 		</form>
 	)
 }

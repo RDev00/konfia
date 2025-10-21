@@ -1,6 +1,6 @@
 async function fetchFunction(json) {
   try {
-    const res = await fetch('https://quickfiado-backend.onrender.com/store/login', {
+    const res = await fetch('https://quickfiado-backend.onrender.com/store/register', {
       method: "POST",
       headers: { "Content-Type" : "application/json" },
       body: JSON.stringify(json)
@@ -13,8 +13,9 @@ async function fetchFunction(json) {
   }
 };
 
-async function login(storename, password) {
+async function login(username, storename, password) {
   const newJson = {
+    "username": username,
     "storename" : storename,
     "password" : password
   };
@@ -24,7 +25,6 @@ async function login(storename, password) {
   const data = {
     "message": res.message,
     "error": res.error || "No hay errores registrados",
-    "token": res.token
   };
 
   return data;
