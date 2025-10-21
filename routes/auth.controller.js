@@ -32,9 +32,9 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { usertag, password } = req.body;
 
-    const userdata = await UserModel.findOne({ username : username });
+    const userdata = await UserModel.findOne({ usertag : usertag });
     if(!userdata) return res.status(404).json({ message: "La cuenta no existe" });
 
     const isMatch = await bcrypt.compare(password, userdata.password);
