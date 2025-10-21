@@ -1,46 +1,32 @@
 async function fetchFunction(json) {
-  const errorMessage = { "error" : "Ha ocurrido un error al iniciar sesión" };
   try {
-    const res = await fetch('http://localhost:2345/users/register', {
+    const res = await fetch('https://quickfiado-backend.onrender.com/user/register', {
       method: "POST",
       headers: { "Content-Type" : "application/json" },
       body: JSON.stringify(json)
     });
 
-    if(res.ok) {
-      return await res.json();
-    } else {
-      return errorMessage;
-    }
+    return await res.json();
   } catch (error) {
-    console.error("Error: ", error)
-    return errorMessage;
+    console.error("Error: ", error);
+    return {"message": "Ha ocurrido un error en el servidor", "error": error}
   }
 };
 
-async function register(storename, password) {
+async function login(usertag, password) {
   const newJson = {
-    "usertag" : usertag,
-    "store" : storename,
+    "username" : usertag,
     "password" : password
   };
 
   const res = await fetchFunction(newJson);
 
   const data = {
-    "response": false,
-    "message": ""
+    "message": res.message,
+    "error": res.error || "No hay errores registrados"
   };
-
-  if(res.error) {
-    data.response = false;
-    data.message = res.error;
-  } else {
-    data.response = true;
-    data.message = "Sesion iniciada con exito";
-  }
 
   return data;
 }
 
-export default register;
+export default login;

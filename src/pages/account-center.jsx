@@ -18,12 +18,12 @@ export default function AccountCenter() {
 		<LayoutSelector>
 			<FormSelectorLayout>
 
-				<OptionButton text="Usuario" function={() => redirect('/store/login')}>
-					<Icon path={mdiAccount} size={4} />
+				<OptionButton text="Tienda" function={() => redirect('/store/login')}>
+					<Icon path={mdiStorefrontOutline} size={4} />
 				</OptionButton>
 
-				<OptionButton text="Tienda" function={() => redirect('/store/register')}>
-					<Icon path={mdiStorefrontOutline} size={4} />
+				<OptionButton text="Usuario" function={() => redirect('/user/login')}>
+					<Icon path={mdiAccount} size={4} />
 				</OptionButton>
 
 			</FormSelectorLayout>

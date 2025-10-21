@@ -22,11 +22,11 @@ export default function PasswordInput(props) {
 			<input 
 				ref={input} 
 				type={inputType}
-				className="backdrop-brightness-90 py-2 px-3 rounded-md text-center focus:outline-none w-full pr-12"
+				className="backdrop-brightness-90 py-2 px-3 rounded-md text-center focus:outline-none w-full pr-12 invalid:border invalid:border-pink-600 invalid:text-pink-600"
 				placeholder={props.text}
 				title={props.guide}
-				name={`konfia_${props.name}`}
-			/>
+				name={`konfia-${props.name}`}
+				pattern="[a-zA-Z0-9.#$%@^&*]{8,12}"/>
 
 			<button 
 				type="button" 
