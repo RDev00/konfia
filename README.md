@@ -1,18 +1,18 @@
-# Invexpress
+# Konfia
 
 ## Descripcion:
-Backend para el control de los usuarios. Los datos de estos mismos como informacion de productos permanece segura, pues el backend solo guarda el nombre de usuario, y listo.
+Aplicacion web y movil basada en el sistema de fiado en las tiendas de abarrotes mexicanas, pero en linea.
 
 ## Metas:
-- Crear el backend con ExpressJS
-- Agregar Supabase de BD
-- Crear rutas para crear, borrar y editar los usuarios
-- Dar administracion libre de estos mismos
+- Probarlo con negocio propio
+- Presentarlo en los proyectos de titulacion
 
 ## Lenguajes:
 - JavaScript
 - NodeJS
-- SQL
+- HTML
+- CSS
 
 ## Frameworks:
-- Express
+- React: Interfaces y botones
+- TailwindCSS: Diseno de interfaz

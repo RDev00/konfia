@@ -1,11 +1,13 @@
 {
   "name": "invexpress",
-  "version": "1.0.0",
+  "private": true,
+  "version": "beta",
   "description": "Backend para el control de los usuarios. Los datos de estos mismos como informacion de productos permanece segura, pues el backend solo guarda el nombre de usuario, y listo.",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
   },
   "repository": {
     "type": "git",
@@ -16,14 +18,18 @@
     "url": "https://github.com/RDev00/invexpress/issues"
   },
   "homepage": "https://github.com/RDev00/invexpress#readme",
+  "devDependencies": {
+    "vite": "^7.1.7"
+  },
   "dependencies": {
-    "@supabase/supabase-js": "^2.57.4",
-    "bcrypt": "^6.0.0",
-    "cors": "^2.8.5",
-    "dotenv": "^17.2.2",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "nodemon": "^3.1.10",
-    "path": "^0.12.7"
+    "@mdi/js": "^7.4.47",
+    "@mdi/react": "^1.6.1",
+    "@tailwindcss/vite": "^4.1.14",
+    "@vitejs/plugin-react": "^5.0.4",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-router": "7.9.3",
+    "react-router-dom": "7.9.3",
+    "tailwindcss": "^4.1.14"
   }
 }
