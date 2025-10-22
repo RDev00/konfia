@@ -8,17 +8,18 @@ const UserModel = require('../models/user.model');
 
 router.post('/register', async (req, res) => {
   try {
-    const { username, password } = req.body;
-    if(!username || !password) return res.status(404).json({ message: "Datos no ingresados" });
+    const { username, usertag, password } = req.body;
+    if(!usertag || !password) return res.status(404).json({ message: "Datos no ingresados" });
 
-    const verify = await UserModel.findOne({ username : username });
+    const verify = await UserModel.findOne({ usertag : usertag });
     if(verify) return res.status(500).json({ message: "Cuenta ya existente" });
 
     const salt = 10;
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const newUser = new UserModel({
-      usertag: username,
+      username: username,
+      usertag: usertag,
       password: hashedPassword
     });
 
