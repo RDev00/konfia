@@ -23,12 +23,19 @@ export default function UserLogin(){
 
 		inputs.forEach(input => {
 			let name = "";
-			if(input.name === "konfia-user-email") { name = "storename" }
-				else { name = "password" };
+			switch (input.name) {
+				case "konfia-user-usertag":
+					name = "usertag"
+					break;
+				case "konfia-user-password":
+					name = "password"
+					break;
+			}
 		  body[name] = input.value.replace(/\s+/g, '');
 		});
+		console.log(body);
 
-		const res = await login(body.storename, body.password);
+		const res = await login(body.usertag, body.password);
 		form.current.classList.remove('disabled');
 		
 		message.current.innerText = res.message;
@@ -46,7 +53,7 @@ export default function UserLogin(){
 		<LayoutForms>
 			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={() => HandleSubmit()} redirectionText="¿No tienes cuenta?" link="/user/register" linkText="¡Registrate!">
 
-				<Input type="text" name="user-username" text="Ingresa tu nombre de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" />
+				<Input type="text" name="user-usertag" text="Ingresa tu nombre de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" />
 				
 				<PasswordInput name="user-password" text="Ingresa tu contraseña" guide="La contraseña no debe contener espacios" />
 			</FormLayout>

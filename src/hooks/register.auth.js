@@ -13,9 +13,10 @@ async function fetchFunction(json) {
   }
 };
 
-async function login(usertag, password) {
+async function login(username, usertag, password) {
   const newJson = {
-    "username" : usertag,
+    "username" : username,
+    "usertag" : usertag,
     "password" : password
   };
 

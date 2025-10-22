@@ -27,6 +27,9 @@ export default function UserRegister(){
 				case "konfia-user-username":
 					name = "username"
 					break;
+				case "konfia-user-usertag":
+					name = "usertag"
+					break;
 				case "konfia-user-password":
 					name = "password"
 					break;
@@ -37,14 +40,17 @@ export default function UserRegister(){
 		  body[name] = input.value.replace(/\s+/g, '');
 		});
 
+		console.log(body);
+
 		if(body.password !== body.confirm) {
 			message.current.innerText = "Las contraseñas no coinciden";
 			form.current.classList.remove('disabled');
 		} else {
-			const res = await register(body.username, body.password);
+			const res = await register(body.username, body.usertag, body.password);
 			form.current.classList.remove('disabled');
 			
 			message.current.innerText = res.message;
+			return window.location.href = "/user/login";
 		}
 	}
 
@@ -52,9 +58,10 @@ export default function UserRegister(){
 		<LayoutForms>
 			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={() => HandleSubmit()} redirectionText="¿Ya tienes cuenta?" link="/user/login" linkText="Inicia sesion!">
 
-				<Input type="text" name="user-username" text="Ingresa tu nombre de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" pattern="[a-zñ0-9]{2,20}" />
+				<Input type="text" name="user-username" text="Crea tu nombre de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" />
+				<Input type="text" name="user-usertag" text="Crea tu identificador de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" pattern="[a-zñ0-9]{2,20}" />
 				
-				<PasswordInput name="user-password" text="Ingresa tu contraseña" guide="La contraseña no debe contener espacios" />
+				<PasswordInput name="user-password" text="Crea tu contraseña" guide="La contraseña no debe contener espacios" />
 				<PasswordInput name="user-confirm" text="Confirma tu contraseña" guide="La contraseña no debe contener espacios" />
 			</FormLayout>
 		</LayoutForms>
