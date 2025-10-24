@@ -101,7 +101,7 @@ router.delete('/delete', async (req, res) => {
   }
 });
 
-router.get('/get/:id?', async (req, res) => {
+router.get('/get/:id', async (req, res) => {
   try {
     const token = req.headers.authorization;
     const { id } = req.params;
