@@ -101,12 +101,12 @@ router.delete('/delete', async (req, res) => {
   }
 });
 
-router.get('/get', async (req, res) => {
+router.get('/get/:id?', async (req, res) => {
   try {
     const token = req.headers.authorization;
-    const id = req.params;
+    const { id } = req.params;
     
-    if(id){
+    if(id && mongoose.Types.ObjectId.isValid(id)){
       const store = await StoreModel.findById(id);
       if(!store) return res.status(404).json({ message: "La cuenta no existe"});
 
