@@ -123,9 +123,9 @@ router.get('/get', async (req, res) => {
   }
 });
 
-router.get('/get/id/:id', async (req, res) => {
+router.get('/getbyid/:id', async (req, res) => {
   try {
-    const { id } = req.params;
+    const id = req.params;
     
     const store = await StoreModel.findById(id);
     if(!store) return res.status(404).json({ message: "La cuenta no existe"});
