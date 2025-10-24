@@ -103,9 +103,20 @@ router.delete('/delete', async (req, res) => {
 
 router.get('/get', async (req, res) => {
   try {
-    const stores = await StoreModel.find();
+    const token = req.headers.authorization;
+    
+    if(token) {
+      const decode = jwt.verify(token, passkey);
+      const storedata = await StoreModel.findById(decode.id);
 
-    res.status(200).json({ message: "Datos obtenidos", data: stores });
+      if(!storedata) return res.status(404).json({ message: "Tienda no encontrada" });
+
+      return res.status(200).json({ message: "Tienda obtenida", store: storedata })
+    } else {
+    const stores = await StoreModel.find();
+       return res.status(200).json({ message: "Datos obtenidos", data: stores });
+    }
+    
   } catch (error) {
     res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
   }

@@ -94,9 +94,22 @@ router.delete('/delete', async (req, res) => {
 
 router.get('/get', async (req, res) => {
   try {
-    const users = await UserModel.find();
+    const token = req.headers.authorization;
 
-    res.status(200).json({ message: "Datos obtenidos", data: users });
+    if(token) {
+      const token = req.headers.authorization;
+
+      const decode = jwt.verify(token, passkey);
+      const userdata = await UserModel.findById(decode.id);
+      if(!userdata) return res.status(404).json({ message: "Usuario no encontrado" });
+
+      return res.status(200).json({ message: "Datos del usuario obtenidos con exito", user: userdata });
+    } else {
+      const users = await UserModel.find();
+
+      return res.status(200).json({ message: "Datos obtenidos", data: users });
+    }
+
   } catch (error) {
     res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
   }
