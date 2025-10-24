@@ -101,17 +101,12 @@ router.delete('/delete', async (req, res) => {
   }
 });
 
-router.get('/get/:id', async (req, res) => {
+router.get('/get', async (req, res) => {
   try {
     const token = req.headers.authorization;
     const { id } = req.params;
     
-    if(id && mongoose.Types.ObjectId.isValid(id)){
-      const store = await StoreModel.findById(id);
-      if(!store) return res.status(404).json({ message: "La cuenta no existe"});
-
-      res.status(200).json({ message: "Datos obtenidos", data: stores });
-    } else if(token) {
+    if(token) {
       const decode = jwt.verify(token, passkey);
       const storedata = await StoreModel.findById(decode.id);
 
@@ -127,5 +122,18 @@ router.get('/get/:id', async (req, res) => {
     res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
   }
 });
+
+router.get('/get/id/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const store = await StoreModel.findById(id);
+    if(!store) return res.status(404).json({ message: "La cuenta no existe"});
+
+    res.status(200).json({ message: "Datos obtenidos", data: stores });
+  } catch (error) {
+    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
+  }
+})
 
 module.exports = router;
