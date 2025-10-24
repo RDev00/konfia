@@ -95,37 +95,45 @@ router.delete('/delete', async (req, res) => {
 router.get('/get', async (req, res) => {
   try {
     const token = req.headers.authorization;
+    const { id } = req.query;
 
-    if(token) {
-      const token = req.headers.authorization;
+    if (token) {
+      const decoded = jwt.verify(cleanToken, passkey);
 
-      const decode = jwt.verify(token, passkey);
-      const userdata = await UserModel.findById(decode.id);
-      if(!userdata) return res.status(404).json({ message: "Usuario no encontrado" });
+      const userdata = await UserModel.findById(decoded.id);
+      if (!userdata)
+        return res.status(404).json({ message: "Usuario no encontrado" });
 
-      return res.status(200).json({ message: "Datos del usuario obtenidos con exito", user: userdata });
-    } else {
-      const users = await UserModel.find();
-
-      return res.status(200).json({ message: "Datos obtenidos", data: users });
+      return res.status(200).json({
+        message: "Datos del usuario obtenidos con éxito",
+        user: userdata
+      });
     }
 
+    if (id) {
+      const userdata = await UserModel.findById(id);
+      if (!userdata)
+        return res.status(404).json({ message: "La cuenta no existe" });
+
+      return res.status(200).json({
+        message: "Cuenta obtenida con éxito",
+        user: userdata
+      });
+    }
+
+    const users = await UserModel.find();
+    return res.status(200).json({
+      message: "Datos obtenidos",
+      users: users
+    });
+
   } catch (error) {
-    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
+    return res.status(500).json({
+      message: "Ha ocurrido un error en el servidor",
+      error: error.message
+    });
   }
 });
 
-router.get('/getbyid/:id', async(req, res) => {
-  try {
-    const id = req.params;
-
-    const user = await UserModel.findById(id);
-    if(!user) return res.status(404).json({ message: "La cuenta no existe"});
-
-    return res.status(200).json({ message: "Datos obtenidos correctamente", user: user });
-  } catch (error) {
-    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
-  }
-})
 
 module.exports = router;
