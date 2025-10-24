@@ -2,7 +2,7 @@ import getCookie from "../functions/getCookie";
 
 async function getData(id) {
   try {
-    const res = await fetch(`https://quickfiado-backend.onrender.com/user/get/id?id=${id}`, {
+    const res = await fetch(`https://quickfiado-backend.onrender.com/user/get?id=${id}`, {
       method: "GET",
       headers: { "Content-Type" : "application/json" }
     });
@@ -14,14 +14,13 @@ async function getData(id) {
   }
 }
 
-async function getUserData(){
-  const token = getCookie('token');
+async function getUserData(id){
   let userData = {};
 
-  if(!token) {
+  if(!id) {
     return userData = { message: "No se pudieron obtener los datos de la cuenta" }
   } else {
-    const userdata = await getData(token);
+    const userdata = await getData(id);
     return userdata;
   }
 }

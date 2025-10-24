@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { Icon } from '@mdi/react';
 import { mdiMenu } from '@mdi/js';
@@ -6,18 +6,27 @@ import { mdiMenu } from '@mdi/js';
 import getUserData from '../hooks/get-data.user';
 
 export default function SectionFoldable(props){
+	const [ users, setUsers ] = useState([]);
+
 	useEffect(() => {
 		const getClients = async() => {
 			const clients = props.clients;
+			const usersRaw = []
 
 			clients.forEach(async(client) => {
 				const data = await getUserData(client.user);
-				console.log(data);
+				usersRaw.push(data);
+
+				console.log(data)
 			});
-		}
+		};
 
 		getClients();
-	});
+
+		const clientsExample = [
+			{ username: "Example", "" }
+		]
+	}, []);
 
 	return(
 		<section className="w-[90dvw] max-w-150 bg-gray-200 rounded-t-md flex items-center px-5 py-3 relative z-2">
