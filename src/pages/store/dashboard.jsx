@@ -1,27 +1,27 @@
 import DashboardLayout from '../../layouts/dashboard-layout';
 import getCookie from '../../functions/getCookie';
 import Header from '../../components/header';
-import SectionFoldable from '../../components/section-foldable';
+import SectionFoldable from '../../components/credit-section-foldable';
 import getStoreData from '../../hooks/get-data.store';
+import logout from '../../functions/logout';
 
 import { useEffect, useState } from 'react';
 
 import Icon from '@mdi/react';
 import { mdiAccountCircle } from '@mdi/js';
-import { data } from 'react-router';
 
 export default function StoreDashboard(){
 	const token = getCookie('token');
 	if(!token) return window.location.href = "/";
 	const [ storename, setStorename ] = useState('usuario');
-	const [ clients, setClients ] = useState({});
+	const [ credits, setCredits ] = useState({});
 
 	useEffect(() => {
 		async function getData() {
 			const storeData = await getStoreData();
 
 			setStorename(storeData.store.username);
-			setClients(storeData.store.clientsdata);
+			setCredits(storeData.store.creditsactive);
 		}
 
 		getData();
@@ -29,7 +29,7 @@ export default function StoreDashboard(){
 	return (
 		<DashboardLayout>
 			<Header>
-				<button type="button" className="ml-auto">
+				<button type="button" className="ml-auto" onClick={() => { logout() }}>
 					<Icon path={mdiAccountCircle} size={1.5} />
 				</button>
 			</Header>
@@ -37,8 +37,7 @@ export default function StoreDashboard(){
 				<h1 className="text-2xl md:text-4xl text-sky-950 text-center"> ¡Bienvenido, {storename}! </h1>
 
 				<section className="pt-10">
-					{/* Obtener los clientes y separar las secciones */}
-					<SectionFoldable text="Clientes" clients={clients} />
+					<SectionFoldable text="Clientes" credits={credits} />
 				</section>
 			</main>
 		</DashboardLayout>

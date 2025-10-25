@@ -2,6 +2,7 @@
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import './global.css';
+import './animations.css';
 
 //Importacion de elementos
 import App from './app';

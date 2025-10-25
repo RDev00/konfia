@@ -1,5 +1,3 @@
-import getCookie from "../functions/getCookie";
-
 async function getData(id) {
   try {
     const res = await fetch(`https://quickfiado-backend.onrender.com/user/get?id=${id}`, {
