@@ -26,6 +26,7 @@
     "@mdi/react": "^1.6.1",
     "@tailwindcss/vite": "^4.1.14",
     "@vitejs/plugin-react": "^5.0.4",
+    "qr-scanner": "1.4.2",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "react-router": "7.9.3",

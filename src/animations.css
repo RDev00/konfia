@@ -1,17 +1,11 @@
-@keyframes OpenFold {
-  from { transform: scaleY(0); opacity: 0 }
-  to { transform: scaleY(1.0); opacity: 1 }
+@keyframes Fold {
+  from { top: 100%; opacity: 0; }
+  to { top: 0; opacity: 1; }
 }
-@keyframes CloseFold {
-  from { transform: scaleY(1.0); opacity: 1 }
-  to { transform: scaleY(0); opacity: 0 }
+@keyframes Hide {
+  from { top: 0; opacity: 1; }
+  to { top: 100%; opacity: 0; }
 }
 
-.open-fold {
-  animation: OpenFold 300ms ease-in-out;
-  transform-origin: top;
-}
-.close-fold {
-  animation: CloseFold 300ms ease-in-out forwards;
-  transform-origin: top;
-}
+.konfia-fold { animation: Fold 1s ease-in-out forwards; }
+.konfia-hide { animation: Hide 1s ease-in-out forwards; }

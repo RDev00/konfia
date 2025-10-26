@@ -1,7 +1,7 @@
 import DashboardLayout from '../../layouts/dashboard-layout';
 import getCookie from '../../functions/getCookie';
 import Header from '../../components/header';
-import SectionFoldable from '../../components/credit-section-foldable';
+import CreditSection from '../../components/credit-section';
 import getStoreData from '../../hooks/get-data.store';
 import logout from '../../functions/logout';
 
@@ -37,7 +37,7 @@ export default function StoreDashboard(){
 				<h1 className="text-2xl md:text-4xl text-sky-950 text-center"> ¡Bienvenido, {storename}! </h1>
 
 				<section className="pt-10">
-					<SectionFoldable text="Clientes" credits={credits} />
+					<CreditSection credits={credits} />
 				</section>
 			</main>
 		</DashboardLayout>

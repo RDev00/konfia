@@ -19,7 +19,6 @@ async function login(usertag, password) {
     "password" : password
   };
 
-  console.log(newJson)
   const res = await fetchFunction(newJson);
 
   const data = {
