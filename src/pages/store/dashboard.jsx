@@ -1,7 +1,7 @@
 import DashboardLayout from '../../layouts/dashboard-layout';
 import getCookie from '../../functions/getCookie';
 import Header from '../../components/header';
-import CreditSection from '../../components/credit-section';
+import StoreSection from '../../components/store-section';
 import getStoreData from '../../hooks/get-data.store';
 import logout from '../../functions/logout';
 
@@ -14,12 +14,14 @@ export default function StoreDashboard(){
 	const token = getCookie('token');
 	if(!token) return window.location.href = "/";
 	const [ storename, setStorename ] = useState('usuario');
-	const [ credits, setCredits ] = useState({});
+	const [ credits, setCredits ] = useState(null);
+	const [ history, setHistory ] = useState(null);
 
 	useEffect(() => {
 		async function getData() {
 			const storeData = await getStoreData();
 
+			setHistory(storeData.store.historial);
 			setStorename(storeData.store.username);
 			setCredits(storeData.store.creditsactive);
 		}
@@ -37,7 +39,7 @@ export default function StoreDashboard(){
 				<h1 className="text-2xl md:text-4xl text-sky-950 text-center"> ¡Bienvenido, {storename}! </h1>
 
 				<section className="pt-10">
-					<CreditSection credits={credits} />
+					<StoreSection credits={credits} history={history} />
 				</section>
 			</main>
 		</DashboardLayout>
