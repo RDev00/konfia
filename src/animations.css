@@ -1,11 +1,11 @@
 @keyframes Fold {
-  from { top: 100%; opacity: 0; }
-  to { top: 0; opacity: 1; }
+  from { transform: translateY(200%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
 @keyframes Hide {
-  from { top: 0; opacity: 1; }
-  to { top: 100%; opacity: 0; }
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(200%); opacity: 0; }
 }
 
-.konfia-fold { animation: Fold 1s ease-in-out forwards; }
-.konfia-hide { animation: Hide 1s ease-in-out forwards; }
+.konfia-fold { animation: Fold 500ms ease-in-out forwards; }
+.konfia-hide { animation: Hide 500ms ease-in-out forwards; }

@@ -33,6 +33,10 @@ export default function CreditSection(props){
       ) : (
         <p className="text-gray-700">No hay créditos disponibles actualmente</p>
       )}
+
+      <div className="w-full flex justify-center pt-5">
+        <button type="button" className="bg-green-600 px-5 py-1 rounded-md cursor-pointer duration-250 hover:scale-105 hover:brightness-120"> Registrar nuevo pago </button>  
+      </div>
     </section>
 	)
 }

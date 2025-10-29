@@ -3,9 +3,16 @@ export default function HistorySection(props){
 
 	return(
     <section ref={props.ref} className="bg-gray-200 w-full px-5 py-3 text-white rounded-b-md hidden">
-      { history && history.lenght > 0 ? ()
-        /* history.forEach() */
-        : ( <p> No hay historial </p> ) }
+      {history && history.length > 0 ?
+      history.map((payment, index) => 
+        ( <div key={index} className="mb-2">
+          <p className="text-gray-600 w-[80%]">
+            ¡El usuario {payment.user} pagó
+            <span className="text-green-600"> ${payment.payment} </span>
+            con éxito! </p>
+        </div>
+        )) :
+         ( <p className="text-gray-700"> No hay historial </p> )}
     </section>
 	)
 }

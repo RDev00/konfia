@@ -6,6 +6,7 @@ import getCreditData from '../hooks/get-data.credit';
 import FoldableFormLayout from './forms/foldable-form-layout';
 import CreditSection from './store/credit-section';
 import HistorySection from './store/history-section';
+import QrScanner from './qr-scanner';
 import Input from './forms/input';
 
 export default function StoreSection(props) {
@@ -50,7 +51,7 @@ export default function StoreSection(props) {
     creditForm.current.classList.remove('konfia-fold');
     setTimeout(() => {
       creditFormSection.current.classList.add('hidden')
-    }, 900)
+    }, 500)
   };
 
   const createCredit = async() => {
@@ -100,6 +101,7 @@ export default function StoreSection(props) {
         <button type="button" ref={historySelectorButton} className="text-xl w-[49%] bg-gray-400 rounded-t-md text-center py-1 text-slate-100 cursor-pointer hover:brightness-105" onClick={() => { openHistorySection() }}>Historial</button>
       </div>
 
+
       <CreditSection ref={creditSection} credits={credits} />
       <HistorySection ref={historySection} history={props.history} />
 
@@ -108,7 +110,7 @@ export default function StoreSection(props) {
       </button>
 
       <FoldableFormLayout ref={creditFormSection} formRef={creditForm} closeFunction={() => { closeCreditForm() }} headerText="¡Crea un nuevo crédito!" submitText="Crear">
-        <p> {/* Aqui ira el texto */} </p>
+        <QrScanner />
         <Input type="text" text="Ingresa el monto de credito"/>
       </FoldableFormLayout>
     </section>

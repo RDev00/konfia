@@ -9,11 +9,11 @@ export default function FoldableFormLayout(props){
 
 				<button type="button" className="w-full flex justify-center items-center cursor-pointer" onClick={props.closeFunction}> <Icon path={mdiMenuDown} size={1} /> </button>
 
-				<h2 className="text-xl mb-2"> {props.headerText} </h2>
+				<h2 className="text-2xl mb-2 font-bold"> {props.headerText} </h2>
 
 				{props.children}
 
-				<button className="bg-emerald-500 text-white text-lg w-[90%] px-1 py-1 rounded-sm cursor-pointer hover:brightness-90 mt-2" type="button" onClick={props.function}> {props.submitText} </button>
+				<button className="bg-emerald-500 text-white text-lg w-[90%] px-1 py-1 rounded-sm cursor-pointer hover:brightness-90 mt-4" type="button" onClick={props.function}> {props.submitText} </button>
 
 			</form>
 		</div>
