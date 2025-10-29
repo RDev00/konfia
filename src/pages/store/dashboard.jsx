@@ -12,7 +12,7 @@ import { mdiAccountCircle } from '@mdi/js';
 
 export default function StoreDashboard(){
 	const token = getCookie('token');
-	if(!token) return window.location.href = "/";
+	if(!token) return window.location.href = "/store/login";
 	const [ storename, setStorename ] = useState('usuario');
 	const [ credits, setCredits ] = useState(null);
 	const [ history, setHistory ] = useState(null);

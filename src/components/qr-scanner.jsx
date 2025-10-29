@@ -35,9 +35,6 @@ export default function QrScanner(props){
   		<button type="button" onClick={() => { toggleScan() }}>
   			{ scanActive ? 'Detener' : 'Escanear QR' }
   		</button>
-
-  		{ data ? ( <p> { data } </p> ) : (<p> </p>) }
-
   	</div>
   );
 };

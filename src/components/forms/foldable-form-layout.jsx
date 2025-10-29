@@ -3,7 +3,7 @@ import { mdiMenuDown } from '@mdi/js';
 
 export default function FoldableFormLayout(props){
 	return (
-		<div className="w-[100dvw] h-[100dvh] fixed backdrop-blur backdrop-brightness-60 z-100 top-0 left-0 flex justify-center items-center hidden duration-200" ref={props.ref}>
+		<div className="w-[100dvw] h-[100dvh] fixed backdrop-blur backdrop-brightness-60 z-100 top-0 left-0 flex justify-center items-center hidden duration-200 pt-10 py-5 overflow-auto" ref={props.ref}>
 
 			<form className="bg-white px-4 py-2 w-[300px] flex flex-col justify-center items-center rounded-md gap-1 relative" ref={props.formRef}>
 

@@ -3,6 +3,7 @@ import { Icon } from '@mdi/react';
 import { mdiPlus } from '@mdi/js';
 
 import getCreditData from '../hooks/get-data.credit';
+import createCredit from '../hooks/get-data.credit';
 import FoldableFormLayout from './forms/foldable-form-layout';
 import CreditSection from './store/credit-section';
 import HistorySection from './store/history-section';
@@ -11,6 +12,7 @@ import Input from './forms/input';
 
 export default function StoreSection(props) {
   const [credits, setCredits] = useState([]);
+  const [ messageCreditSubmit, setMessageCreditSubmit ] = useState(null);
   const creditForm = useRef(null);
   const creditFormSection = useRef(null);
 
@@ -54,8 +56,23 @@ export default function StoreSection(props) {
     }, 500)
   };
 
-  const createCredit = async() => {
+  const submitCredit = async() => {
+    let user = "";
+    let credit = 0;
 
+    /* Obtener los datos del usuario mediante el QR */
+    /* Obtener la cantidad de pago */
+
+    const res = await createCredit(user, credit);
+
+    if(res.error !== "No hay errores registrados") {
+      setMessageCreditSubmit(res.message);
+    } else {
+      console.error(res.error);
+      setMessageCreditSubmit(" Ha ocurrido un error al crear el credito ")
+    }
+
+    return 0;
   }
 
   const openCreditSection = () => {
@@ -94,7 +111,7 @@ export default function StoreSection(props) {
   };
 
   return (
-    <section className="w-[90dvw] max-w-150 rounded-md flex flex-col items-center">
+    <section className="w-[90dvw] max-w-150 rounded-md flex flex-col items-center mb-15">
 
       <div className="flex w-full items-center justify-evenly">
         <button type="button" ref={creditSelectorButton} className="text-xl w-[49%] bg-gray-200 rounded-t-md text-center py-1 text-slate-800 cursor-pointer" onClick={() => { openCreditSection() }}>Créditos</button>

@@ -31,12 +31,19 @@ export default function CreditSection(props){
           )}
         </>
       ) : (
-        <p className="text-gray-700">No hay créditos disponibles actualmente</p>
+          <p className="text-gray-700">No hay créditos disponibles actualmente</p>
       )}
-
-      <div className="w-full flex justify-center pt-5">
-        <button type="button" className="bg-green-600 px-5 py-1 rounded-md cursor-pointer duration-250 hover:scale-105 hover:brightness-120"> Registrar nuevo pago </button>  
-      </div>
+      <div className="flex flex-col items-center justify-center mt-5">
+        {props.credits.some((credit) => credit.isAvaible) ? (
+          props.credits
+            .filter((credit) => credit.isAvaible)
+            .map((credit) => (
+              <button type="button" className="bg-green-400 px-5 py-1 rounded-md cursor-pointer relative mt-2 duration-200 hover:brightness-110 hover:scale-105 text-sm md:text-base" onClick={props.function}> Registrar nuevo credito </button>
+            ))
+        ) : (
+        <button type="button" className="bg-gray-400 px-5 py-1 rounded-md cursor-not-allowed mt-2 text-sm md:text-base"> No hay creditos activos actualmente </button>
+        )}
+        </div>
     </section>
 	)
 }

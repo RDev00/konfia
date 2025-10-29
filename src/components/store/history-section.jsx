@@ -6,7 +6,7 @@ export default function HistorySection(props){
       {history && history.length > 0 ?
       history.map((payment, index) => 
         ( <div key={index} className="mb-2">
-          <p className="text-gray-600 w-[80%]">
+          <p className="text-gray-600">
             ¡El usuario {payment.user} pagó
             <span className="text-green-600"> ${payment.payment} </span>
             con éxito! </p>
