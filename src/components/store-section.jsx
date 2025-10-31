@@ -3,7 +3,7 @@ import { Icon } from '@mdi/react';
 import { mdiPlus } from '@mdi/js';
 
 import getCreditData from '../hooks/get-data.credit';
-import createCredit from '../hooks/get-data.credit';
+import createCredit from '../hooks/create.credit';
 import FoldableFormLayout from './forms/foldable-form-layout';
 import CreditSection from './store/credit-section';
 import HistorySection from './store/history-section';
@@ -11,7 +11,7 @@ import QrScanner from './qr-scanner';
 import Input from './forms/input';
 
 export default function StoreSection(props) {
-  const [credits, setCredits] = useState([]);
+  const [ credits, setCredits ] = useState(null);
   const [ messageCreditSubmit, setMessageCreditSubmit ] = useState(null);
   const creditForm = useRef(null);
   const creditFormSection = useRef(null);
@@ -21,6 +21,9 @@ export default function StoreSection(props) {
 
   const creditSelectorButton = useRef(null);
   const historySelectorButton = useRef(null);
+
+  const [ scannedData, setScannedData ] = useState(null);
+  const creditInserted = useRef(null);
 
   useEffect(() => {
     async function getCredits() {
@@ -42,14 +45,6 @@ export default function StoreSection(props) {
     getCredits();
   }, [props.credits]);
 
-  /*useEffect(() => {
-    async function createNewCredit() {
-      const res = await createCredit('68f7f1f2fe090a8c33db0e12', 200)
-    }
-
-    createNewCredit();
-  }, []);*/
-
   const openCreditForm = () => {
     creditFormSection.current.classList.remove('hidden');
     creditForm.current.classList.add('konfia-fold');
@@ -64,21 +59,28 @@ export default function StoreSection(props) {
     }, 500)
   };
 
-  const submitCredit = async() => {
-    let user = "";
-    let credit = 0;
+  const submitCredit = async(e) => {
+    e.preventDefault();
+    setMessageCreditSubmit(""); 
+    if(!scannedData){
+      setMessageCreditSubmit("No se escaneo el QR");
+      return;
+    };
 
-    /* Obtener los datos del usuario mediante el QR */
-    /* Obtener la cantidad de pago */
+    let credit = creditInserted.current?.value;
 
-    const res = await createCredit(user, credit);
+    if(!credit) return setMessageCreditSubmit("No se ingreso la cantidad de credito");
 
-    if(res.error !== "No hay errores registrados") {
+    const res = await createCredit(scannedData, credit);
+
+    if(res.error === "No hay errores registrados") {
       setMessageCreditSubmit(res.message);
     } else {
       console.error(res.error);
       setMessageCreditSubmit(" Ha ocurrido un error al crear el credito ")
     }
+
+    window.location.reload();
 
     return 0;
   }
@@ -134,9 +136,9 @@ export default function StoreSection(props) {
         <div className="invert"><Icon path={mdiPlus} size={1.5} /></div>
       </button>
 
-      <FoldableFormLayout ref={creditFormSection} formRef={creditForm} closeFunction={() => { closeCreditForm() }} headerText="¡Crea un nuevo crédito!" submitText="Crear">
-        <QrScanner />
-        <Input type="text" text="Ingresa el monto de credito"/>
+      <FoldableFormLayout ref={creditFormSection} formRef={creditForm} closeFunction={() => { closeCreditForm() }} headerText="¡Crea un nuevo crédito!" submitText="Crear" submitFunction={(e) => submitCredit(e)} message={messageCreditSubmit}>
+        <QrScanner onScan={(value) => setScannedData(value)} />
+        <Input type="number" text="Ingresa el monto de credito" ref={creditInserted}/>
       </FoldableFormLayout>
     </section>
   );

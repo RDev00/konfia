@@ -48,7 +48,7 @@ export default function StoreDashboard(){
 				</main>
 			</>
 			) : (
-			<h1 className="text-4xl font-bold text-white fixed top-[50%] left-[50%] transform-[translate(-50%,-50%)]"> Cargando tus datos... </h1>
+			<h1 className="text-xl md:text-4xl font-bold text-white fixed top-[50%] left-[50%] transform-[translate(-50%,-50%)] text-center"> Cargando tus datos... </h1>
 			)}
 		</DashboardLayout>
 	)

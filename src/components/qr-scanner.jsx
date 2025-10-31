@@ -7,7 +7,7 @@ import { mdiQrcodeScan } from '@mdi/js';
 import VideoPreview from './camera/video.preview';
 
 export default function QrScanner(props){
-  const [data, setData] = useState(null);
+  const [ data, setData ] = useState(null);
   const [ scanActive, setScanActive ] = useState(false);
 
   const toggleScan = () => {
@@ -17,13 +17,19 @@ export default function QrScanner(props){
 
   return (
   	<div className="flex flex-col justify-center items-center text-gray-700 w-[90%] max-w-[150px] py-2">
+
   		<div className="w-full aspect-square flex flex-col items-center justify-center border border-5 border-emerald-300 rounded-md relative p-3">
   			{ scanActive ? (
 					<>
 						<QrReader
 							constraints = {{ facingMode: "environment" }}
 							onResult={(result, error) => {
-							if (!!result) { setData(result?.text); }
+							if (!!result) {
+								setData(result?.text);
+								if(props.onScan) { props.onScan(result?.text) };
+								setScanActive(false);
+								return;
+							}
 							if (!!error) { return 0; }
 						}}
 						/>
@@ -42,7 +48,9 @@ export default function QrScanner(props){
 	  		</button>
   			) }
 
-  		
+  			{data ? (
+  				<p className="w-full text-sm text-gray-700 mt-2"> Se obtuvieron los datos </p>
+  				) : (<></>)}
   	</div>
   );
 };

@@ -23,7 +23,7 @@ export default async function createCredit(user, credit) {
   if(!user || !credit) return { message: "No se ingresaron datos" };
 
   const newJson = {
-    "user" : user,
+    "userId" : user,
     "credit" : credit
   };
 
