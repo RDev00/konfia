@@ -19,7 +19,7 @@ async function fetchFunction(json) {
   }
 };
 
-async function createCredit(user, credit) {
+export default async function createCredit(user, credit) {
   if(!user || !credit) return { message: "No se ingresaron datos" };
 
   const newJson = {
@@ -28,6 +28,7 @@ async function createCredit(user, credit) {
   };
 
   const res = await fetchFunction(newJson);
+  console.log(newJson, res);
 
   const data = {
     "message": res.message,
@@ -36,5 +37,3 @@ async function createCredit(user, credit) {
 
   return data;
 }
-
-export default login;

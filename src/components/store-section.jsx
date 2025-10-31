@@ -42,6 +42,14 @@ export default function StoreSection(props) {
     getCredits();
   }, [props.credits]);
 
+  /*useEffect(() => {
+    async function createNewCredit() {
+      const res = await createCredit('68f7f1f2fe090a8c33db0e12', 200)
+    }
+
+    createNewCredit();
+  }, []);*/
+
   const openCreditForm = () => {
     creditFormSection.current.classList.remove('hidden');
     creditForm.current.classList.add('konfia-fold');

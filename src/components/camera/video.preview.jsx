@@ -5,8 +5,12 @@ export default function VideoPreview(){
 
 	useEffect(() => {
 		const video = videoSection.current;
+		const constraints = {
+			video: { facingMode: "environment" },
+			audio: false
+		};
 
-		navigator.mediaDevices.getUserMedia({ video: true })
+		navigator.mediaDevices.getUserMedia(constraints)
 		.then(stream => {
 			if("srcObject" in video) { video.srcObject = stream; }
 				else { video.src = window.URL.createObjectURL(stream) }

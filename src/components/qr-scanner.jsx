@@ -32,9 +32,17 @@ export default function QrScanner(props){
 	  			) : ( <Icon path={mdiQrcodeScan} size={ 'auto' } /> )}
   		</div>
 
-  		<button type="button" onClick={() => { toggleScan() }}>
-  			{ scanActive ? 'Detener' : 'Escanear QR' }
-  		</button>
+  		{ scanActive ? (
+  			<button type="button" onClick={() => { toggleScan() }} className="bg-red-500 text-white w-full py-1 rounded-md mt-3 cursor-pointer duration-200 hover:scale-110 hover:brightness-90">
+	  			Detener
+	  		</button>
+  			) : (
+  			<button type="button" onClick={() => { toggleScan() }} className="bg-emerald-400 text-white w-full py-1 rounded-md mt-3 cursor-pointer duration-200 hover:scale-110 hover:brightness-90">
+	  			Escanear QR
+	  		</button>
+  			) }
+
+  		
   	</div>
   );
 };
