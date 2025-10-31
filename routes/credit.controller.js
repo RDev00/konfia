@@ -10,10 +10,10 @@ const passkey = process.env.PASSKEY;
 
 router.post('/create', async (req, res) => {
   try {
-    const { user, credit } = req.body;
+    const { userId, credit } = req.body;
     const token = req.headers.authorization;
 
-    const userData = await UserModel.findOne({ username: user });
+    const userData = await UserModel.findById(userId);
     if (!userData) return res.status(404).json({ message: "Usuario no existente" });
 
     const decode = jwt.verify(token, passkey);
