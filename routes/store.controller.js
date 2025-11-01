@@ -62,7 +62,7 @@ router.put('/update', async (req, res) => {
 
     if(!username && !password) return res.status(404).json({ message: "Datos no ingresados" });
 
-    const isMatch = await bcrypt.compare(password, storeData.password);
+    const isMatch = await bcrypt.compare(password, storedata.password);
     if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
 
     if(username && !password) {
