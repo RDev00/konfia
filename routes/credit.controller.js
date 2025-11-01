@@ -26,6 +26,7 @@ router.post('/create', async (req, res) => {
     const newCredit = new CreditModel({
       store: storeData.storename,
       username: userData.username,
+      userId: userId,
       isActive: true,
       credit: credit,
     });
@@ -63,7 +64,7 @@ router.put('/update', async (req, res) => {
     const credit = await CreditModel.findById(creditId);
     if(!credit) return res.status(400).json({ message : "Credito no existente" });
 
-    const userData = await UserModel.findOne({ username: credit.username });
+    const userData = await UserModel.findOne(credit.userId);
     if(!userData) return res.status(404).json({ message: "Cuenta de usuario no existente" });
     
     const oldPayment = credit.payment || 0;
@@ -104,15 +105,15 @@ router.put('/update', async (req, res) => {
 
 router.get('/get', async (req, res) => {
   try {
-    const { id, user, store } = req.query;
+    const { id, userId, store } = req.query;
 
     if(id) {
       const credit = await CreditModel.findById(id);
       if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
 
       res.status(200).json({ message: "Credito obtenido exitosamente", credit: credit });
-    } else if(user) {
-      const credit = await CreditModel.find({ username: user });
+    } else if(userId) {
+      const credit = await CreditModel.findById(userId);
       if(!credit) return res.status(404).json({ message: "Credito no encontrado" });
 
       res.status(200).json({ message: "Creditos obtenidos exitosamente", credit: credit });

@@ -4,7 +4,9 @@ const mongoose = require('mongoose');
 const CreditModelSchema = new mongoose.Schema({
 
 	//Correo de la tienda
-	store : { type: String, required: true },
+	storename : { type: String, required: true },
+	//Id del usuario
+	userId : { type: String, required: true },
 	//Nombre del usuario
 	username : { type: String, required: true },
 	//Actividad

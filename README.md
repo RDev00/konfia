@@ -1,4 +1,4 @@
-# Quickfiado
+# Konfia
 
 ## Descripcion:
 Backend para el control de los usuarios. Los datos de estos mismos como informacion de productos permanece segura, pues el backend solo guarda el nombre de usuario, y listo.
