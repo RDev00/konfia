@@ -31,7 +31,7 @@ export default function CreditSection(props){
           )}
         </>
       ) : (
-          <p className="text-gray-700">No hay créditos disponibles actualmente</p>
+          <p className="text-gray-700 text-center my-2 text-lg font-bold"> ¿Sin créditos? ¡Prueba registrar uno nuevo! </p>
       )}
       {props.credits && (
         <div className="flex flex-col items-center justify-center mt-5">

@@ -32,7 +32,7 @@ export default function StoreDashboard(){
 
 	return (
 		<DashboardLayout>
-			{storename && credits && history ? (
+			{storename ? (
 			<>
 				<Header>
 					<button type="button" className="ml-auto ml-auto invert cursor-pointer" onClick={() => { goToProfile() }}>

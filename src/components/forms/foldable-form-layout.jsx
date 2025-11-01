@@ -15,7 +15,7 @@ export default function FoldableFormLayout(props){
 
 				<button className="bg-emerald-500 text-white text-lg w-[90%] px-1 py-1 rounded-sm cursor-pointer hover:brightness-90 mt-4" type="submit"> {props.submitText} </button>
 
-				<p className="text-sm text-gray-700 my-2"> {props.message} </p>
+				<p className="text-sm text-gray-700 my-2 text-center"> {props.message} </p>
 
 			</form>
 		</div>

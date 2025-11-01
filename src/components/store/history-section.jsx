@@ -12,7 +12,7 @@ export default function HistorySection(props){
             con éxito! </p>
         </div>
         )) :
-         ( <p className="text-gray-700"> No hay historial </p> )}
+         ( <p className="text-gray-700 text-center my-2 text-lg font-bold"> Nada nuevo por aquí... </p> )}
     </section>
 	)
 }

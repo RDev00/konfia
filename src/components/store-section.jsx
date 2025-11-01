@@ -104,7 +104,7 @@ export default function StoreSection(props) {
       setMessagePaymentSubmit(" Ha ocurrido un error al crear el pago ")
     }
 
-    //window.location.reload();
+    setTimeout(() => { window.location.reload() },100);
 
     return 0;
   }

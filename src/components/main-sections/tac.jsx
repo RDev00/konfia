@@ -2,7 +2,7 @@ import TextSection from '../text-section';
 
 export default function TACSection(){
 	return (
-		<div className="w-[90dvw] md:w-[80dvw] flex flex-col md:flex-row md:flex-wrap gap-5 md:gap-7 justify-center">
+		<div id="terms-and-conditions" className="w-[90dvw] md:w-[80dvw] flex flex-col md:flex-row md:flex-wrap gap-5 md:gap-7 justify-center">
 			<h2 className="font-bold text-center w-full text-4xl"> Terminos y condiciones </h2>
 
 			<TextSection title="Aceptación de los Términos">
