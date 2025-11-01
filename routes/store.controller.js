@@ -52,36 +52,47 @@ router.post('/login', async (req, res) => {
 
 router.put('/update', async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { username, password, currentPassword } = req.body;
     const token = req.headers.authorization;
+
+    if (!token) return res.status(401).json({ message: "Token no proporcionado" });
 
     const decode = jwt.verify(token, passkey);
     const storedata = await StoreModel.findById(decode.id);
-    if(!storedata) return res.status(404).json({ message: "Tienda no encontrada" });
-    const storename = storedata.storename;
+    if (!storedata) return res.status(404).json({ message: "Tienda no encontrada" });
 
-    if(!username && !password) return res.status(404).json({ message: "Datos no ingresados" });
-
-    const isMatch = await bcrypt.compare(password, storedata.password);
-    if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
-
-    if(username && !password) {
-      await StoreModel.updateOne({storename : storename}, {username : username});
-    } else if(password && !username) {
-      const salt = 10;
-      const passwordHashed = await bcrypt.hash(password, salt)
-      
-      await StoreModel.updateOne({storename: storename}, {password : passwordHashed});
-    } else {
-      const salt = 10;
-      const passwordHashed = await bcrypt.hash(password, salt)
-      
-      await StoreModel.updateOne({storename: storename}, {username : username, password : passwordHashed});
+    if (!username && !password) {
+      return res.status(400).json({ message: "Datos no ingresados" });
     }
 
-    return res.status(200).json({ message: "Datos actualizados con exito" });
+    if (password) {
+      if (!currentPassword) {
+        return res.status(400).json({ message: "Debe ingresar la contraseña actual para cambiarla" });
+      }
+
+      const isMatch = await bcrypt.compare(currentPassword, storedata.password);
+      if (!isMatch) {
+        return res.status(401).json({ message: "Contraseña actual incorrecta" });
+      }
+    }
+
+    const updateData = {};
+
+    if (username) updateData.username = username;
+    if (password) {
+      const saltRounds = 10;
+      updateData.password = await bcrypt.hash(password, saltRounds);
+    }
+
+    await StoreModel.updateOne({ _id: storedata._id }, updateData);
+
+    return res.status(200).json({ message: "Datos actualizados con éxito" });
+
   } catch (error) {
-    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
+    res.status(500).json({
+      message: "Ha ocurrido un error en el servidor",
+      error: error.message
+    });
   }
 });
 
