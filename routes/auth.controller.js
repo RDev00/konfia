@@ -70,14 +70,14 @@ router.put('/update', async (req, res) => {
 
     if(!username && password) {
       const salt = 10;
-      const passwordHashed = bcrypt.hash(password, salt);
+      const passwordHashed = await bcrypt.hash(password, salt);
 
       await UserModel.updateOne({username: userdata.username}, {password : passwordHashed});
     };
 
     if(username && password) {
       const salt = 10;
-      const passwordHashed = bcrypt.hash(password, salt);
+      const passwordHashed = await bcrypt.hash(password, salt);
 
       await UserModel.updateOne({username: userdata.username}, {username: username, password : passwordHashed});
     };
