@@ -5,6 +5,7 @@ export default function Input(props) {
 			placeholder={props.text}
 			title={props.guide}
 			name={`konfia-${props.name}`}
-			pattern={props.pattern}/>
+			pattern={props.pattern}
+			ref={props.ref}/>
 	)
 }

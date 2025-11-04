@@ -1,11 +1,14 @@
-# Konfia
+# Invexpress
 
 ## Descripcion:
-Aplicacion web y movil basada en el sistema de fiado en las tiendas de abarrotes mexicanas, pero en linea.
+Frontend para la interaccion del usuario. La gran mayoria de la logica de la web va a funcionar dentro de aqui.
 
 ## Metas:
-- Probarlo con negocio propio
-- Presentarlo en los proyectos de titulacion
+- Crear los botones de interaccion
+- Crear un registrador de barras registradoras
+- Crear un inventariado
+- Crear login, register y acceso a la configuracion de cuentas funcional
+- Crear modo claro y oscuro
 
 ## Lenguajes:
 - JavaScript

@@ -2,7 +2,7 @@ import TextSection from '../text-section';
 
 export default function AboutSection(){
 	return (
-		<div className="w-[90dvw] md:w-[80dvw] flex flex-col md:flex-row md:flex-wrap gap-5 md:gap-7 justify-center mb-10">
+		<div id="about" className="w-[90dvw] md:w-[80dvw] flex flex-col md:flex-row md:flex-wrap gap-5 md:gap-7 justify-center mb-10">
 			<h2 className="font-bold text-center w-full text-4xl"> Acerca de </h2>
 
 			<TextSection title="¿Qué es Konfia?">

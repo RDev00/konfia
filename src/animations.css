@@ -1,11 +1,11 @@
-@keyframes slideLeft {
-	0% { left: -100%; opacity: 0 }
-	100% { left: 0; opacity: 1 }
+@keyframes Fold {
+  from { transform: translateY(200%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
-@keyframes slideRight {
-	0% { left: 0; opacity: 1 }
-	100% { left: -100%; opacity: 0 }
+@keyframes Hide {
+  from { transform: translateY(0); opacity: 1; }
+  to { transform: translateY(200%); opacity: 0; }
 }
 
-.slide-left { animation: slideLeft 500ms ease-in-out; }
-.slide-right { animation: slideRight 500ms ease-in-out; }
+.konfia-fold { animation: Fold 500ms ease-in-out forwards; }
+.konfia-hide { animation: Hide 500ms ease-in-out forwards; }

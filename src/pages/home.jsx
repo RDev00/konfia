@@ -14,9 +14,7 @@ export default function Home() {
 		let link = "";
 
 		if(cookie) {
-			const isUserOrStore = getCookie('userType');	
-			if (isUserOrStore === "user") { link = '/user'; }
-				else { link = '/store' }
+			const link = localStorage.getItem('userType') || 'store';
 			window.location.href = `${link}/dashboard`;
 		}
 			else { window.location.href = "/account-center" }

@@ -5,7 +5,7 @@ export default function HomeMain() {
 	return (
 		<main className="bg-white flex flex-col justify-start items-center min-h-[85dvh] pb-10">
 
-			<section className="bg-[url(/public/home-background.jpg)] bg-center bg-cover bg-no-repeat w-full min-h-[50dvh] grid grid-template-cols-[1fr] mb-15">
+			<section className="bg-[url(/home-background.jpg)] bg-center bg-cover bg-no-repeat w-full min-h-[50dvh] grid grid-template-cols-[1fr] mb-15">
 
 				<div className="h-full text-white flex flex-col items-center justify-center backdrop-blur backdrop-brightness-60 text-center">
 
