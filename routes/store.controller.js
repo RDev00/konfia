@@ -62,7 +62,7 @@ router.put('/update', async (req, res) => {
     if (!storedata) return res.status(404).json({ message: "Tienda no encontrada" });
 
     const isMatch = bcrypt.compare(currentPassword, storedata.password);
-    if(!isMatch) return res.status(201).json({ message: "Contraseñas incorrectas" });
+    if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
 
     if (!username && !password) {
       return res.status(400).json({ message: "Datos no ingresados" });

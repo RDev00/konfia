@@ -59,7 +59,7 @@ router.put('/update', async (req, res) => {
     const userdata = await UserModel.findById(decode.id);
     if(!userdata) return res.status(404).json({ message: "Usuario no encontrado" });
 
-    if(username && !password) return res.status(404).json({ message: "Datos no ingresados" });
+    if(!currentPassword) return res.status(401).json({ message: "No se ingreso la contraseña" });
 
     const isMatch = await bcrypt.compare(currentPassword, userdata.password);
     if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
