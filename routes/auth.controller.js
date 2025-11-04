@@ -98,7 +98,7 @@ router.get('/get', async (req, res) => {
     const { id } = req.query;
 
     if (token) {
-      const decoded = jwt.verify(cleanToken, passkey);
+      const decoded = jwt.verify(token, passkey);
 
       const userdata = await UserModel.findById(decoded.id);
       if (!userdata)
