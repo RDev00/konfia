@@ -61,6 +61,9 @@ router.put('/update', async (req, res) => {
     const storedata = await StoreModel.findById(decode.id);
     if (!storedata) return res.status(404).json({ message: "Tienda no encontrada" });
 
+    const isMatch = bcrypt.compare(currentPassword, storedata.password);
+    if(!isMatch) return res.status(201).json({ message: "Contraseñas incorrectas" });
+
     if (!username && !password) {
       return res.status(400).json({ message: "Datos no ingresados" });
     }
@@ -99,10 +102,14 @@ router.put('/update', async (req, res) => {
 router.delete('/delete', async (req, res) => {
   try {
     const token = req.headers.authorization;
+    const { password } = req.body;
 
     const decode = jwt.verify(token, passkey);
     const storedata = await StoreModel.findById(decode.id);
     if(!storedata) return res.status(404).json({ message: "Tienda no encontrada" });
+
+    const isMatch = await bcrypt.compare(password, storedata.password);
+    if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
 
     await StoreModel.findByIdAndDelete(decode.id);
 

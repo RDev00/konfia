@@ -52,23 +52,35 @@ router.post('/login', async (req, res) => {
 
 router.put('/update', async (req, res) => {
   try {
-    const { password } = req.body;
+    const { username, password, currentPassword } = req.body;
     const token = req.headers.authorization;
 
     const decode = jwt.verify(token, passkey);
     const userdata = await UserModel.findById(decode.id);
     if(!userdata) return res.status(404).json({ message: "Usuario no encontrado" });
-    const username = userdata.username;
 
-    if(!username && !password) return res.status(404).json({ message: "Datos no ingresados" });
+    if(username && !password) return res.status(404).json({ message: "Datos no ingresados" });
 
-    const isMatch = await bcrypt.compare(password, userdata.password);
+    const isMatch = await bcrypt.compare(currentPassword, userdata.password);
     if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
 
-    const salt = 10;
-    const passwordHashed = bcrypt.hash(password, salt)
-    
-    await UserModel.updateOne({username: username}, {username : username, password : passwordHashed});
+    if(username && !password) {
+      await UserModel.updateOne({username: userdata.username}, {username : username});
+    };
+
+    if(!username && password) {
+      const salt = 10;
+      const passwordHashed = bcrypt.hash(password, salt);
+
+      await UserModel.updateOne({username: userdata.username}, {password : passwordHashed});
+    };
+
+    if(username && password) {
+      const salt = 10;
+      const passwordHashed = bcrypt.hash(password, salt);
+
+      await UserModel.updateOne({username: userdata.username}, {username: username, password : passwordHashed});
+    };
 
     return res.status(200).json({ message: "Datos actualizados con exito" });
   } catch (error) {
@@ -79,10 +91,14 @@ router.put('/update', async (req, res) => {
 router.delete('/delete', async (req, res) => {
   try {
     const token = req.headers.authorization;
+    const { password } = req.body;
 
     const decode = jwt.verify(token, passkey);
     const userdata = await UserModel.findById(decode.id);
     if(!userdata) return res.status(404).json({ message: "Usuario no encontrado" });
+
+    const isMatch = await bcrypt.compare(password, userdata.password);
+    if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
 
     await UserModel.findByIdAndDelete(decode.id);
 
