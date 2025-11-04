@@ -4,9 +4,9 @@ import DashboardLayout from '../../layouts/dashboard-layout';
 import FoldableFormLayout from '../../components/forms/foldable-form-layout';
 import Input from '../../components/forms/input';
 import PasswordInput from '../../components/forms/password-input';
-import getStoreData from '../../hooks/get-data.store';
-import updateStore from '../../hooks/update.store';
-import deleteStore from '../../hooks/delete.store';
+import getUserData from '../../hooks/get-data.user';
+import updateUser from '../../hooks/update.user';
+import deleteUser from '../../hooks/delete.user';
 import logout from '../../functions/logout';
 import getCookie from '../../functions/getCookie';
 import Header from '../../components/header';
@@ -15,8 +15,8 @@ import SettingsOption from '../../components/settings-option';
 import Icon from '@mdi/react';
 import { mdiHomeCircle, mdiAccountCircle, mdiShieldEditOutline, mdiHelp, mdiScaleBalance, mdiDeleteOutline, mdiLogout, mdiSquareEditOutline } from '@mdi/js';
 
-export default function StoreSettings() {
-	const [ storeData, setStoreData ] = useState(null);
+export default function UserSettings() {
+	const [ userData, setUserData ] = useState(null);
 
 	const usernameForm = useRef(null);
 	const usernameFormSection	 = useRef(null);
@@ -33,16 +33,15 @@ export default function StoreSettings() {
 	const goToDashboard = () => { window.location.href = '/store/dashboard' }
 	
 	useEffect(() => {
-		async function getData(){
-			const fetchStoreData = await getStoreData();
-
-			setStoreData(fetchStoreData.store);
-		}
-
-		getData();
-
 		const token = getCookie('token');
-		if(!token) return window.location.href="/"
+		if(!token) return window.location.href="/";
+
+    async function getData() {
+      const res = await getUserData();
+      setUserData(res.user);
+    }
+
+    getData();
 	});
 
 	const href = (link) => { window.location.href = link };
@@ -68,21 +67,21 @@ export default function StoreSettings() {
 	};
 
 	const updateData = async() => {
-		const fetchStoreData = await getStoreData();
+    const res = await getUserData();
 
-		setStoreData(fetchStoreData);
+    setUserData(res.user);
 	}
 
 	const changeUsername = async(e) => {
 		e.preventDefault();
-		setUsernameFormMessage("")
+		setUsernameFormMessage("");
 		const form = usernameForm.current;
 
 		const insertedUsername = form.querySelector('input[name="konfia-new-username"]');
 		const insertedPassword = form.querySelector('input[name="konfia-password"]');
 
-		if(insertedUsername !== storeData.username || !insertedUsername || !insertedPassword) {
-			const res = await updateStore(insertedUsername.value, null, insertedPassword.value);
+		if(insertedUsername !== userData.username || !insertedUsername || !insertedPassword) {
+			const res = await updateUser(insertedUsername.value, null, insertedPassword.value);
 			setUsernameFormMessage(res.message);
 			insertedUsername.value = "";
 			insertedPassword.value = "";
@@ -105,7 +104,7 @@ export default function StoreSettings() {
 		const insertedPassword = form.querySelector('input[name="konfia-password"]');
 
 			if (insertedNewPassword && insertedPassword) {
-				const res = await updateStore(null, insertedNewPassword.value, insertedPassword.value);
+				const res = await updateUser(null, insertedNewPassword.value, insertedPassword.value);
 				setPasswordFormMessage(res.message);
 				insertedNewPassword.value = "";
 				insertedPassword.value = "";
@@ -127,15 +126,14 @@ export default function StoreSettings() {
 
 		const insertedPassword = form.querySelector('input[name="konfia-password"]');
 
-		if(insertedPassword){
-			const res = await deleteStore(insertedPassword.value);
-			setDeleteAccountFormMessage(res.message);
+		if(insertedPassword) {
+      const res = await deleteUser(insertedPassword.value);
+      setDeleteAccountFormMessage(res.message);
 
-			if(!res.error || res.error === "No hay errores registrados") { logout(); }
-		} else {
-			setDeleteAccountFormMessage("No se ingreso la contraseña")
-		}
-
+      if(!res.error || res.error === "No hay errores registrados"){ logout(); };
+    } else {
+      setDeleteAccountFormMessage("No se ingreso la contraseña")
+    }
 	}
 
 	return (
@@ -151,13 +149,13 @@ export default function StoreSettings() {
 					<div className="w-[80%] flex items-center gap-2">
 						<Icon path={mdiAccountCircle} size={1.4} />
 						<article>
-							{storeData ? (
+							{userData ? (
 							<>
 								<p className="text-xl md:text-2xl font-bold text-gray-900">
-								{storeData.username}
+								{userData.username}
 								</p>
 								<p className="text-xs md:text-sm text-gray-700 opacity-80">
-									{storeData.storename}
+									@{userData.usertag}
 								</p>
 							</>
 							) : (
@@ -197,7 +195,7 @@ export default function StoreSettings() {
 
 			<FoldableFormLayout ref={deleteAccountFormSection} formRef={deleteAccountForm} closeFunction={() => { closeFoldableForm(deleteAccountForm, deleteAccountFormSection) }} headerText="¿Estas seguro de querer eliminar tu cuenta?" submitText="Eliminar" submitFunction={(e) => { deleteAccount(e) }} message={deleteAccountFormMessage}>
 				<PasswordInput text="Ingresa tu contraseña" name="password" />
-			</FoldableFormLayout>
+      </FoldableFormLayout>
 		</DashboardLayout>
 	)
 }

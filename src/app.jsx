@@ -14,6 +14,7 @@ import StoreSettings from './pages/store/settings';
 import UserLogin from './pages/user/login';
 import UserRegister from './pages/user/register';
 import UserDashboard from './pages/user/dashboard';
+import UserSettings from './pages/user/settings';
 
 //Creacion del elemento de rutas
 function App(){
@@ -32,6 +33,7 @@ function App(){
 			<Route path="/user/login" element={ <UserLogin /> } />
 			<Route path="/user/register" element={ <UserRegister /> } />
 			<Route path="/user/dashboard" element={ <UserDashboard /> } />
+			<Route path="/user/settings" element={ <UserSettings /> } />
 
 			<Route path="*" element={ <ErrorPage /> } />
 		</Routes>

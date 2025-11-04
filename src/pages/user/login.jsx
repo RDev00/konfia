@@ -33,7 +33,6 @@ export default function UserLogin(){
 			}
 		  body[name] = input.value.replace(/\s+/g, '');
 		});
-		console.log(body);
 
 		const res = await login(body.usertag, body.password);
 		form.current.classList.remove('disabled');
@@ -44,6 +43,7 @@ export default function UserLogin(){
 			expirationDate.setDate(expirationDate.getDate() + 7);
 
 			document.cookie = `token=${res.token}; expires=${expirationDate.toUTCString()}; path=/; Secure; SameSite=Strict`;
+			localStorage.setItem('userType', 'user');
 
 			setTimeout(() => { window.location.href="/user/dashboard" }, 100)
 		};

@@ -3,7 +3,7 @@ const token = getCookie('token');
 
 async function fetchFunction(json) {
   try {
-    const res = await fetch('https://quickfiado-backend.onrender.com/store/update', {
+    const res = await fetch('https://quickfiado-backend.onrender.com/user/update', {
       method: "PUT",
       headers: { "Content-Type" : "application/json",
       "authorization" : token },
@@ -17,7 +17,7 @@ async function fetchFunction(json) {
   }
 };
 
-export default async function updateStore(username, password, currentPassword) {
+export default async function updateUser(username, password, currentPassword) {
   const newJson ={
     "username": username,
     "password": password,

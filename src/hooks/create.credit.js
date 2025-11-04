@@ -28,8 +28,7 @@ export default async function createCredit(user, credit) {
   };
 
   const res = await fetchFunction(newJson);
-  console.log(newJson, res);
-
+  
   const data = {
     "message": res.message,
     "error": res.error || "No hay errores registrados"
