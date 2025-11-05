@@ -22,9 +22,8 @@ router.post('/create', async (req, res) => {
     const storeData = await StoreModel.findById(decode.id);
     if (!storeData) return res.status(404).json({ message: "Tienda no encontrada" });
 
-    // Crear un nuevo crédito
     const newCredit = new CreditModel({
-      store: storeData.storename,
+      storename: storeData.storename,
       username: userData.username,
       userId: userId,
       isActive: true,
@@ -35,13 +34,22 @@ router.post('/create', async (req, res) => {
 
     await StoreModel.findByIdAndUpdate(
       storeData._id,
-      { $push: { clientsdata: { user: userData._id }, creditsactive: { credit: newCredit._id }}
-    });
+      {
+        $push: {
+          clientsdata: { user: userData._id },
+          creditsactive: { credit: newCredit._id }
+        }
+      }
+    );
 
     await UserModel.findByIdAndUpdate(
       userData._id,
-      { $push: { credits: newCredit._id }
-    });
+      {
+        $push: {
+          credits: newCredit._id
+        }
+      }
+    );
 
     res.status(201).json({ message: "Crédito creado exitosamente", credit: newCredit });
   } catch (error) {
