@@ -91,20 +91,20 @@ export default function StoreSection(props) {
     
     if (!selectedCredit) return alert("Selecciona un crédito primero");
 
-    let payment = paymentInserted.current?.value;
+    let payment = Number(paymentInserted.current?.value);
 
     if(!payment) return setMessagePaymentSubmit("No se ingreso la cantidad de paymento");
-
+    console.log(selectedCredit);
     const res = await payCredit(selectedCredit, payment);
 
-    if(res.error === "No hay errores registrados") {
-      setMessagePaymentSubmit(res.message);
-    } else {
+    if(res.error && res.error !== "No hay errores registrados") {
       console.error(res.error);
       setMessagePaymentSubmit(" Ha ocurrido un error al crear el pago ")
+    } else {
+      setMessagePaymentSubmit(res.message);
     }
 
-    setTimeout(() => { window.location.reload() },100);
+    setTimeout(() => { window.location.reload() }, 200);
 
     return 0;
   }

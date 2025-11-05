@@ -16,7 +16,9 @@ export default function StoreLogin(){
 	const message = useRef(null);
 	const form = useRef(null);
 
-	const HandleSubmit = async () => {
+	const HandleSubmit = async (e) => {
+		e.preventDefault();
+
 		form.current.classList.add('disabled');
 		const inputs = form.current.querySelectorAll('input[name]');
 		const body = {};
@@ -44,7 +46,7 @@ export default function StoreLogin(){
 
 	return (
 		<LayoutForms>
-			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={() => HandleSubmit()} redirectionText="¿No tienes cuenta?" link="/store/register" linkText="¡Registrate!">
+			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={(e) => HandleSubmit(e)} redirectionText="¿No tienes cuenta?" link="/store/register" linkText="¡Registrate!">
 
 				<Input type="email" name="store-email" text="Ingresa tu correo" guide="El correo no debe contener mayusculas, tambien debe ir todo el texto junto de la siguiente manera: example@konfia.com" />
 				

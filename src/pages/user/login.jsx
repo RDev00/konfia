@@ -16,7 +16,9 @@ export default function UserLogin(){
 	const message = useRef(null);
 	const form = useRef(null);
 
-	const HandleSubmit = async () => {
+	const HandleSubmit = async (e) => {
+		e.preventDefault();
+
 		form.current.classList.add('disabled');
 		const inputs = form.current.querySelectorAll('input[name]');
 		const body = {};
@@ -51,7 +53,7 @@ export default function UserLogin(){
 
 	return (
 		<LayoutForms>
-			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={() => HandleSubmit()} redirectionText="¿No tienes cuenta?" link="/user/register" linkText="¡Registrate!">
+			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={(e) => HandleSubmit(e)} redirectionText="¿No tienes cuenta?" link="/user/register" linkText="¡Registrate!">
 
 				<Input type="text" name="user-usertag" text="Ingresa tu nombre de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" />
 				

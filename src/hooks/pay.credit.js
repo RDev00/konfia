@@ -6,7 +6,7 @@ async function fetchFunction(json) {
     if(!token) return { message: "Credenciales invalidas" };
 
     const res = await fetch('https://quickfiado-backend.onrender.com/credit/update', {
-      method: "POST",
+      method: "PUT",
       headers: { "Content-Type" : "application/json",
         "authorization" : token },
       body: JSON.stringify(json)
@@ -28,7 +28,7 @@ export default async function payCredit(credit, payment) {
   };
 
   const res = await fetchFunction(newJson);
-  console.log(newJson, res);
+  console.log(res);
 
   const data = {
     "message": res.message,
