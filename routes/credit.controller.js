@@ -57,57 +57,99 @@ router.post('/create', async (req, res) => {
     res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
   }
 });
-
 router.put('/update', async (req, res) => {
   try {
     const { creditId, payment } = req.body;
     const token = req.headers.authorization;
 
     const decode = jwt.verify(token, passkey);
-    if (!decode) return res.status(401).json({ message: "Credenciales inválidas" });
+    if (!decode) {
+      return res.status(401).json({ message: "Credenciales inválidas" });
+    }
 
     const storeData = await StoreModel.findById(decode.id);
-    if (!storeData) return res.status(404).json({ message: "Tienda no encontrada" });
+    if (!storeData) {
+      return res.status(404).json({ message: "Tienda no encontrada" });
+    }
 
     const credit = await CreditModel.findById(creditId);
-    if(!credit) return res.status(400).json({ message : "Credito no existente" });
+    if (!credit) {
+      return res.status(400).json({ message: "Crédito no existente" });
+    }
 
-    const userData = await UserModel.findOne(credit.userId);
-    if(!userData) return res.status(404).json({ message: "Cuenta de usuario no existente" });
-    
+    const userData = await UserModel.findById(credit.userId);
+    if (!userData) {
+      return res.status(404).json({ message: "Cuenta de usuario no existente" });
+    }
+
     const oldPayment = credit.payment || 0;
-    const actualPayment = oldPayment + payment;
+    const actualPayment = oldPayment + Number(payment);
 
-    if(actualPayment <= credit.credit) {
+    if (actualPayment >= credit.credit) {
       await CreditModel.findByIdAndUpdate(
         creditId,
-        { $set : { isActive : false, payment : actualPayment } }
+        { $set: { isActive: false, payment: actualPayment } }
       );
+
       await StoreModel.findByIdAndUpdate(
         decode.id,
-        { $push : { historial : { message: "Pago realizado", payment: payment, user: userData.username }, creditsfinished : creditId }
-      });
+        {
+          $push: {
+            historial: {
+              message: "Pago completo realizado",
+              payment: payment,
+              user: userData.username
+            },
+            creditsfinished: creditId
+          }
+        }
+      );
     } else {
       await CreditModel.findByIdAndUpdate(
         creditId,
-        { $set : { payment : actualPayment } }
+        { $set: { payment: actualPayment } }
       );
+
       await StoreModel.findByIdAndUpdate(
         decode.id,
-        { $push : { historial : { message: "Pago realizado", payment: payment, user: userData.username } }
-      });
-    };
+        {
+          $push: {
+            historial: {
+              message: "Pago parcial realizado",
+              payment: payment,
+              user: userData.username
+            }
+          }
+        }
+      );
+    }
 
     await UserModel.findByIdAndUpdate(
       userData._id,
-      { $push : { historial : { message: "Pago realizado", payment: payment, store: storeData.storename } }
-    });
+      {
+        $push: {
+          historial: {
+            message: "Pago realizado",
+            payment: payment,
+            store: storeData.storename
+          }
+        }
+      }
+    );
 
     const actualCredit = await CreditModel.findById(creditId);
 
-    res.status(200).json({ message: "Credito actualizado exitosamente", credit: actualCredit });
+    res.status(200).json({
+      message: "Crédito actualizado exitosamente",
+      credit: actualCredit
+    });
+
   } catch (error) {
-    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
+    console.error(error);
+    res.status(500).json({
+      message: "Ha ocurrido un error en el servidor",
+      error: error.message
+    });
   }
 });
 
