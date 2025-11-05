@@ -1,21 +1,29 @@
-# Invexpress
+# Konfia
 
-## Descripcion:
-Frontend para la interaccion del usuario. La gran mayoria de la logica de la web va a funcionar dentro de aqui.
+# Descripción:
+Una aplicación hecha para que los usuarios puedan interactuar, creando créditos en base al sistema de fiado.
 
-## Metas:
-- Crear los botones de interaccion
-- Crear un registrador de barras registradoras
-- Crear un inventariado
-- Crear login, register y acceso a la configuracion de cuentas funcional
-- Crear modo claro y oscuro
+# Integrantes del proyecto:
+- Isaac Antonio Isaís Rojas: Dirección del proyecto y diseño.
+- José Rafael Martínez Bocanegra: Desarrollo Full Stack
+- Gustavo Alfonso Martinez Cabral: Apoyo en Desarrollo Frontend
 
-## Lenguajes:
+# Apps de deploy:
+Para subir la app requerimos de otras 2 aplicaciones web para subirlas, las cuales fueron las siguientes:
+- [ Frontend ] Vercel: https://konfia-gray.vercel.app
+- [ Backend ] Render: https://quickfiado-backend.onrender.com/
+
+# Librerías extras:
+Para hacer las funciones de crear y registrar QRs de usuario.
+- react-qr-reader: https://www.npmjs.com/package/react-qr-reader
+- qrcode.react: https://www.npmjs.com/package/qrcode.react
+
+# Frameworks:
+La aplicación usó el Stack MERN para su interfaz y su servidor. Los frameworks usados son los siguientes:
+- React 
+- Express
+- TailwindCSS
+
+# Lenguajes
+Al crear la aplicación se usaron los siguientes lenguajes:
 - JavaScript
-- NodeJS
-- HTML
-- CSS
-
-## Frameworks:
-- React: Interfaces y botones
-- TailwindCSS: Diseno de interfaz
