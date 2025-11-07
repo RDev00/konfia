@@ -10,7 +10,7 @@ const app = express();
 //importacion de rutas
 const storeroute = require('./routes/store.controller');
 const userroute = require('./routes/auth.controller');
-const dataroute = require('./routes/data.controller');
+const rateroute = require('./routes/rate.controller');
 const creditroute = require('./routes/credit.controller');
 
 //Puerto
@@ -23,7 +23,7 @@ app.use(cors());
 //Rutas
 app.use('/store', storeroute);
 app.use('/user', userroute);
-app.use('/data', dataroute);
+app.use('/rate', rateroute);
 app.use('/credit', creditroute);
 
 //Conexión a MongoDB

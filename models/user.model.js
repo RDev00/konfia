@@ -18,6 +18,10 @@ const UserModelSchema = new mongoose.Schema({
 	creditsfinished : { type: Object },
 	//Historial
 	historial : { type: Object },
+	//Calificaciones totales
+	totalCalifications : { type: Number, default: 0 },
+	//Valor total de las calificaciones
+	totalRateValue : { type: Number, default: 0 },
 });
 
 module.exports = mongoose.model('UserModel', UserModelSchema);

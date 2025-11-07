@@ -9,20 +9,25 @@ const UserModel = require('../models/user.model');
 const passkey = process.env.PASSKEY;
 
 //Review de tienda a usuario (ambos se guardan)
-router.post('/review', async (req, res) => {
+router.post('/create', async (req, res) => {
   try {
-    const { user, calification, comment, average } = req.body;
+    const { user, calification, comment } = req.body;
     const token = req.headers.authorization;
-    if (!user || !token || !calification || !comment || !average) {
+    if (!user || !token || !calification) {
       return res.status(400).json({ message: "No se ingresaron los datos" });
     }
 
-    const exists = await UserModel.findOne({ username: user });
-    if (!exists) return res.status(404).json({ message: "Datos no encontrados" });
+    const userData = await UserModel.findOne({ username: user });
+    if (!userData) return res.status(404).json({ message: "Datos no encontrados" });
 
     const decoded = jwt.verify(token, passkey);
     const store = await StoreModel.findById(decoded.id);
     if (!store) return res.status(401).json({ message: "Identificaciones invalidas" });
+
+    const califications = userData.totalCalifications + 1;
+    const totalRate = userData.totalRateValue + calification;
+
+    const average = totalRate / califications;
 
     await StoreModel.findByIdAndUpdate(
       store._id,
@@ -30,7 +35,7 @@ router.post('/review', async (req, res) => {
     );
 
     await UserModel.findByIdAndUpdate(
-      exists._id,
+      userData._id,
       { $set: { calification: average } }
     );
 
