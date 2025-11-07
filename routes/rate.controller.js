@@ -11,27 +11,27 @@ const passkey = process.env.PASSKEY;
 //Review de tienda a usuario (ambos se guardan)
 router.post('/create', async (req, res) => {
   try {
-    const { user, calification, comment } = req.body;
+    const { userId, calification, comment } = req.body;
     const token = req.headers.authorization;
-    if (!user || !token || !calification) {
+
+    if (!userId || !token || !calification) {
       return res.status(400).json({ message: "No se ingresaron los datos" });
     }
 
-    const userData = await UserModel.findOne({ username: user });
-    if (!userData) return res.status(404).json({ message: "Datos no encontrados" });
+    const userData = await UserModel.findById(userId);
+    if (!userData) return res.status(404).json({ message: "Usuario no encontrado" });
 
     const decoded = jwt.verify(token, passkey);
     const store = await StoreModel.findById(decoded.id);
-    if (!store) return res.status(401).json({ message: "Identificaciones invalidas" });
+    if (!store) return res.status(401).json({ message: "Identificaciones inválidas" });
 
-    const califications = userData.totalCalifications + 1;
-    const totalRate = userData.totalRateValue + calification;
-
-    const average = totalRate / califications;
+    const totalCalifications = (store.totalCalifications || 0) + 1;
+    const totalRateValue = (store.totalRateValue || 0) + calification;
+    const average = totalRateValue / totalCalifications;
 
     await StoreModel.findByIdAndUpdate(
       store._id,
-      { $push: { reviews: { user, calification, comment } } }
+      { $push: { reviews: { userTag: userData.usertag, calification, comment } } }
     );
 
     await UserModel.findByIdAndUpdate(
@@ -39,9 +39,12 @@ router.post('/create', async (req, res) => {
       { $set: { calification: average } }
     );
 
-    res.status(200).json({ message: "Review hecha con exito" });
+    res.status(200).json({ message: "Review hecha con éxito" });
   } catch (error) {
-    res.status(500).json({ message: "Ha ocurrido un error en el servidor", error: error.message });
+    res.status(500).json({
+      message: "Ha ocurrido un error en el servidor",
+      error: error.message
+    });
   }
 });
 
