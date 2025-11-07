@@ -82,7 +82,7 @@ export default function UserRegister(){
 			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={(e) => HandleSubmit(e)} redirectionText="¿Ya tienes cuenta?" link="/user/login" linkText="Inicia sesion!">
 
 				<Input type="text" name="user-username" text="Crea tu nombre de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" />
-				<Input type="text" name="user-usertag" text="Crea tu identificador de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" pattern="[a-zñ0-9]{2,20}" />
+				<Input type="text" name="user-usertag" text="Crea tu identificador de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" pattern="[a-zñ0-9]{2,20}" required="true" />
 				
 				<PasswordInput name="user-password" text="Crea tu contraseña" guide="La contraseña no debe contener espacios" />
 				<PasswordInput name="user-confirm" text="Confirma tu contraseña" guide="La contraseña no debe contener espacios" />

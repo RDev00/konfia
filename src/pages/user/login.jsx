@@ -55,7 +55,7 @@ export default function UserLogin(){
 		<LayoutForms>
 			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={(e) => HandleSubmit(e)} redirectionText="¿No tienes cuenta?" link="/user/register" linkText="¡Registrate!">
 
-				<Input type="text" name="user-usertag" text="Ingresa tu nombre de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" />
+				<Input type="text" name="user-usertag" text="Ingresa tu nombre de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" required="true" />
 				
 				<PasswordInput name="user-password" text="Ingresa tu contraseña" guide="La contraseña no debe contener espacios" />
 			</FormLayout>

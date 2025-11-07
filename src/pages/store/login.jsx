@@ -48,7 +48,7 @@ export default function StoreLogin(){
 		<LayoutForms>
 			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={(e) => HandleSubmit(e)} redirectionText="¿No tienes cuenta?" link="/store/register" linkText="¡Registrate!">
 
-				<Input type="email" name="store-email" text="Ingresa tu correo" guide="El correo no debe contener mayusculas, tambien debe ir todo el texto junto de la siguiente manera: example@konfia.com" />
+				<Input type="email" name="store-email" text="Ingresa tu correo" guide="El correo no debe contener mayusculas, tambien debe ir todo el texto junto de la siguiente manera: example@konfia.com" required="true" />
 				
 				<PasswordInput name="store-password" text="Ingresa tu contraseña" guide="La contraseña no debe contener espacios" />
 			</FormLayout>

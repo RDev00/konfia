@@ -26,7 +26,8 @@ export default function PasswordInput(props) {
 				placeholder={props.text}
 				title={props.guide}
 				name={`konfia-${props.name}`}
-				pattern="[a-zA-Z0-9.#$%@^&*]{8,12}"/>
+				pattern="[a-zA-Z0-9.#$%@^&*]{8,12}"
+				required="true"/>
 
 			<button 
 				type="button" 

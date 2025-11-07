@@ -8,10 +8,10 @@ export default function CreditSection(props){
             props.credits
               .filter((credit) => credit.isActive)
               .map((credit) => (
-                <div key={credit._id} className="flex justify-start items-center">
+                <a key={credit._id} href={`/user/profile/${credit.userId}`} className="flex justify-start items-center hover:text-sky-500">
                   <p className="text-gray-700">Usuario: {credit.username}</p>
                   <p className="ml-auto text-green-500">Crédito: {credit.credit}</p>
-                </div>
+                </a>
               ))
           ) : (
             <p className="text-gray-700 mb-3">No hay créditos activos</p>
@@ -21,10 +21,10 @@ export default function CreditSection(props){
             props.credits
               .filter((credit) => !credit.isActive)
               .map((credit) => (
-                <div key={credit._id} className="flex justify-start items-center">
+                <a key={credit._id} href={`/user/profile/${credit.userId}`} className="flex justify-start items-center hover:text-sky-500">
                   <p className="text-gray-700">Usuario: {credit.username}</p>
                   <p className="ml-auto text-red-700">Crédito: {credit.credit}</p>
-                </div>
+                </a>
               ))
           ) : (
             <p className="text-gray-700">No hay créditos inactivos</p>

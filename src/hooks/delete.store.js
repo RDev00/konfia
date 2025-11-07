@@ -24,8 +24,6 @@ export default async function deleteStore(password) {
 
   const res = await doFetch(newJSON);
 
-  console.log(res)
-
   const data = {
     "message": res.message,
     "error": res.error || "No hay errores registrados"
