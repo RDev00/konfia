@@ -36,7 +36,7 @@ router.post('/create', async (req, res) => {
 
     await UserModel.findByIdAndUpdate(
       userData._id,
-      { $set: { calification: average } }
+      { $set: { calification: average, totalCalifications, totalRateValue } }
     );
 
     res.status(200).json({ message: "Review hecha con éxito" });
