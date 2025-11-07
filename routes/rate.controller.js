@@ -25,8 +25,8 @@ router.post('/create', async (req, res) => {
     const store = await StoreModel.findById(decoded.id);
     if (!store) return res.status(401).json({ message: "Identificaciones inválidas" });
 
-    const totalCalifications = (store.totalCalifications || 0) + 1;
-    const totalRateValue = (store.totalRateValue || 0) + calification;
+    const totalCalifications = (userData.totalCalifications || 0) + 1;
+    const totalRateValue = (userData.totalRateValue || 0) + calification;
     const average = totalRateValue / totalCalifications;
 
     await StoreModel.findByIdAndUpdate(
