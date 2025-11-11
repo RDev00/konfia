@@ -1,0 +1,40 @@
+Ejemplo de estrucurado del frontend
+
+│ Konfia/
+│
+├── public/
+│   └── icon.svg
+│   └── images
+│       └── image.png
+├── src/
+│   ├── components/
+│   │   ├── button.jsx
+│   │   ├── camera/
+│   │   │   └── video.jsx
+│   │   ├── forms/
+│   │   │   ├── form.jsx
+│   │   │   └── input.jsx
+│   │   ├── store/
+│   │   │   └── credit-section.jsx
+│   │   ├── user/
+│   │   │   └── qr-section.jsx
+│   ├── functions/
+│   │   └── getCookie.js
+│   ├── hooks/
+│   │   └── login.user.js
+│   ├── layouts/
+│   │   └── layout.jsx
+│   ├── pages/
+│   │   ├── Home.jsx
+│   │   ├── About.jsx
+│   │   ├── store/
+│   │   │   └── dashboard.jsx
+│   │   └── user/
+│   │       └── dashboard.jsx
+│   ├── app.jsx
+│   ├── main.jsx
+│   └── global.css
+├── .gitignore
+├── package.json
+├── vite.config.js
+└── README.md

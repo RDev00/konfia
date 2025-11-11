@@ -139,7 +139,7 @@ export default function UserSettings() {
 	return (
 		<DashboardLayout>
 			<Header>
-				<button type="button" className="ml-auto invert cursor-pointer" onClick={() => { goToDashboard() }}>
+				<button type="button" className="ml-auto cursor-pointer" onClick={() => { goToDashboard() }}>
 					<Icon path={mdiHomeCircle} size={1.5} />
 				</button>
 			</Header>

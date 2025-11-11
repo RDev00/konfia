@@ -15,6 +15,7 @@ import { mdiAccountCircle, mdiHome, mdiStar } from '@mdi/js';
 
 export default function Profile() {
   const { userId } = useParams();
+  const reviews = JSON.parse(localStorage.getItem('reviews'))
   const [ userData, setUserData ] = useState(null);
   const [ notFoundMessage, setNotFoundMessage ] = useState(null);
   const loadingMessage = useRef(null);
@@ -87,7 +88,7 @@ export default function Profile() {
       { notFoundMessage ? ( <Header /> ) : ( <></> ) }
       { userData ? (
         <Header>
-          <a href="/" type="button" className="ml-auto ml-auto invert cursor-pointer">
+          <a href="/" type="button" className="ml-auto ml-auto cursor-pointer">
             <Icon path={mdiHome} size={1.5} />
           </a>
         </Header>
@@ -114,6 +115,10 @@ export default function Profile() {
           </section>
 
           <section className="bg-gray-200	w-[90dvw] max-w-[500px] px-2 py-1 rounded-md flex flex-col justify-center mt-5 py-3">
+            <p className="text-center"> El usuario tiene una calificacion de { userData.calification || 0 } estrellas </p>
+          </section>
+
+          <section className="bg-gray-200	w-[90dvw] max-w-[500px] px-2 py-1 rounded-md flex flex-col justify-center mt-5 py-3">
             {
               userData.historial && userData.historial.length > 0 ? userData.historial.map((payment, index) => (
                 <div key={index} className="mb-2">
@@ -134,6 +139,33 @@ export default function Profile() {
 
             <Input ref={comment} type="text" text="Ingresa un comentario sobre tu experiencia con el usuario" />            
           </FoldableFormLayout>
+
+          <section className="bg-gray-200 w-[90dvw] max-w-[500px] px-2 py-3 rounded-md flex flex-col justify-center mt-5">
+            {reviews && reviews.length > 0 ? (
+              reviews
+                .filter((review) => review.userTag === userData.usertag)
+                .length > 0 ? (
+                  reviews
+                    .filter((review) => review.userTag === userData.usertag)
+                    .map((review, index) => (
+                      <div key={index} className="py-1">
+                        <p>Calificación ingresada: {review.calification}</p>
+                        {review.comment && (
+                          <p>
+                            Comentario:{" "}
+                            <span className="italic text-gray-700">{review.comment}</span>
+                          </p>
+                        )}
+                      </div>
+                    ))
+                ) : (
+                  <p className="text-center">No hay reseñas para este usuario.</p>
+                )
+            ) : (
+              <p>No hay reseñas aún.</p>
+            )}
+          </section>
+
         </main>
       ) : (
         <p ref={loadingMessage} className="text-white fixed top-[50%] left-[50%] transform-[translate(-50%,-50%)] font-bold text-xl md:text-3xl text-center"> Cargando... </p>

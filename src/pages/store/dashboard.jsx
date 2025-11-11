@@ -23,6 +23,7 @@ export default function StoreDashboard(){
 			setHistory(storeData.store.historial);
 			setStorename(storeData.store.username);
 			setCredits(storeData.store.creditsactive);
+			localStorage.setItem('reviews', JSON.stringify(storeData.store.reviews));
 		}
 
 		getData();
@@ -35,7 +36,7 @@ export default function StoreDashboard(){
 			{storename ? (
 			<>
 				<Header>
-					<button type="button" className="ml-auto ml-auto invert cursor-pointer" onClick={() => { goToProfile() }}>
+					<button type="button" className="ml-auto ml-auto cursor-pointer" onClick={() => { goToProfile() }}>
 						<Icon path={mdiAccountCircle} size={1.5} />
 					</button>
 				</Header>

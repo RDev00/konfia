@@ -1,3 +1,6 @@
+/* Importacion de la libreria de CSS tailwind */
+/* Link a documentacion: https://tailwincss.com/docs */
 @import "tailwindcss";
 
+/* Tema para desabilitar botones */
 @custom-variant disabled (&:where(.disabled, .disabled *));

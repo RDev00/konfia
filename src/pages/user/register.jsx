@@ -1,27 +1,39 @@
+//Importacion de elementos
 import Input from '../../components/forms/input';
 import PasswordInput from '../../components/forms/password-input';
 import FormLayout from '../../components/forms/form-layout';
 import LayoutForms from '../../layouts/layout-form';
 import { useRef, useEffect } from 'react';
 
+//Importacion de funciones
 import getCookie from '../../functions/getCookie';
+
+//Importacion de conexiones
 import register from '../../hooks/register.auth';
 import login from '../../hooks/login.auth';
 
 export default function UserRegister(){
+  //Verificamos si el usuario ya esta registrado
 	useEffect(() => {
 		const token = getCookie('token');
+    //Si esta registrado retornamos al inicio
 		if(token) return window.location.href = '/';
 	}, []);
 
+  //Declaramos los elementos
 	const message = useRef(null);
 	const form = useRef(null);
 
+  //Hacemos la funcion del submit
 	const HandleSubmit = async (e) => {
+  //Prevenimos recargas prematuras
   e.preventDefault();
 
+  //Agregamos la clase deshabilitado
   form.current.classList.add('disabled');
+  //Obtenemos todos los inputs
   const inputs = form.current.querySelectorAll('input[name]');
+  //Hacemos el Objeto de body
   const body = {};
 
   inputs.forEach(input => {
@@ -40,10 +52,13 @@ export default function UserRegister(){
         name = "confirm";
         break;
     }
+		//Insertamos el valor del input y eliminamos todos los espacios
     body[name] = input.value.replace(/\s+/g, '');
   });
 
+  //Verificamos si las contraseñas coincidenn desde el frontend
   if (body.password !== body.confirm) {
+    //Sino coinciden se lo indicamos al usuario, eliminamos la clase deshabilitado y cancelamos la funcion
     message.current.innerText = "Las contraseñas no coinciden";
     form.current.classList.remove('disabled');
     return;

@@ -1,7 +1,9 @@
+/* Animacion de mostrar */
 @keyframes Fold {
   from { transform: translateY(200%); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+/* Animacion de ocultar */
 @keyframes Hide {
   from { transform: translateY(0); opacity: 1; }
   to { transform: translateY(200%); opacity: 0; }
