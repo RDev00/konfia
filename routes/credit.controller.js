@@ -46,7 +46,7 @@ router.post('/create', async (req, res) => {
       userData._id,
       {
         $push: {
-          credits: newCredit._id
+          creditsactive: { credit: newCredit._id }
         }
       }
     );
@@ -104,6 +104,20 @@ router.put('/update', async (req, res) => {
           }
         }
       );
+
+      await UserModel.findByIdAndUpdate(
+        userData._id,
+        {
+          $push: {
+            historial: {
+              message: "Pago realizado",
+              payment: payment,
+              store: storeData.storename
+            },
+            creditsfinished: creditId
+          }
+        }
+      );
     } else {
       await CreditModel.findByIdAndUpdate(
         creditId,
@@ -122,20 +136,20 @@ router.put('/update', async (req, res) => {
           }
         }
       );
-    }
-
-    await UserModel.findByIdAndUpdate(
-      userData._id,
-      {
-        $push: {
-          historial: {
-            message: "Pago realizado",
-            payment: payment,
-            store: storeData.storename
+      
+      await UserModel.findByIdAndUpdate(
+        userData._id,
+        {
+          $push: {
+            historial: {
+              message: "Pago realizado",
+              payment: payment,
+              store: storeData.storename
+            }
           }
         }
-      }
-    );
+      );
+    }
 
     const actualCredit = await CreditModel.findById(creditId);
 

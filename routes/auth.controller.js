@@ -49,17 +49,16 @@ router.post('/login', async (req, res) => {
   }
 });
 
-
 router.put('/update', async (req, res) => {
   try {
     const { username, password, currentPassword } = req.body;
     const token = req.headers.authorization;
 
+    if(!currentPassword || !token) return res.status(201).json({ message: "No se ingresaron los datos necesarios" })
+
     const decode = jwt.verify(token, passkey);
     const userdata = await UserModel.findById(decode.id);
     if(!userdata) return res.status(404).json({ message: "Usuario no encontrado" });
-
-    if(!currentPassword) return res.status(401).json({ message: "No se ingreso la contraseña" });
 
     const isMatch = await bcrypt.compare(currentPassword, userdata.password);
     if(!isMatch) return res.status(401).json({ message: "Contraseñas incorrectas" });
