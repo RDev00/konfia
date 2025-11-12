@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
-import HistorySection from "./store/history-section";
+import { useRef } from "react";
+import HistorySection from "./user/history-section";
 import QrSection from "./user/qr-section";
 
 export default function UserSection(props) {

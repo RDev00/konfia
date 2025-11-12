@@ -1,23 +1,30 @@
-import { useRef, useState, useEffect } from 'react';
-
+//Importacion de elementos
 import DashboardLayout from '../../layouts/dashboard-layout';
 import FoldableFormLayout from '../../components/forms/foldable-form-layout';
 import Input from '../../components/forms/input';
 import PasswordInput from '../../components/forms/password-input';
-import getUserData from '../../hooks/get-data.user';
-import updateUser from '../../hooks/update.user';
-import deleteUser from '../../hooks/delete.user';
-import logout from '../../functions/logout';
-import getCookie from '../../functions/getCookie';
 import Header from '../../components/header';
 import SettingsOption from '../../components/settings-option';
 
+//Importacion de funciones
+import { useRef, useState, useEffect } from 'react';
+import logout from '../../functions/logout';
+import getCookie from '../../functions/getCookie';
+
+//Importacion de conexiones
+import getUserData from '../../hooks/get-data.user';
+import updateUser from '../../hooks/update.user';
+import deleteUser from '../../hooks/delete.user';
+
+//Importacion de iconos
 import Icon from '@mdi/react';
 import { mdiHomeCircle, mdiAccountCircle, mdiShieldEditOutline, mdiHelp, mdiScaleBalance, mdiDeleteOutline, mdiLogout, mdiSquareEditOutline } from '@mdi/js';
 
 export default function UserSettings() {
+	//Hacemos la constante para guardar los datos de usuario
 	const [ userData, setUserData ] = useState(null);
 
+	//Declaracion de formularios, sus secciones y las funciones para insertar mensajes
 	const usernameForm = useRef(null);
 	const usernameFormSection	 = useRef(null);
 	const [ usernameFormMessage, setUsernameFormMessage ] = useState("");
@@ -30,22 +37,28 @@ export default function UserSettings() {
 	const deleteAccountFormSection = useRef(null);
 	const [ deleteAccountFormMessage, setDeleteAccountFormMessage ] = useState('');
 
+	//Creamos la funcion para redirigir al dashboard
 	const goToDashboard = () => { window.location.href = '/store/dashboard' }
 	
+	//Verificamos si existe el token
 	useEffect(() => {
 		const token = getCookie('token');
 		if(!token) return window.location.href="/";
 
+		//Obtenemos los datos del usuario y los guardamos
     async function getData() {
       const res = await getUserData();
       setUserData(res.user);
     }
 
+		//Ejecutamos la funcion
     getData();
 	});
 
+	//Creamos la funcion para redirigir
 	const href = (link) => { window.location.href = link };
 
+	//Creamos una funcion para abrir forms foldables
 	const openFoldableForm = (form, section) => {
 		const formCurrent = form.current;
 		const sectionCurrent = section.current;
@@ -55,6 +68,7 @@ export default function UserSettings() {
     formCurrent.classList.remove('konfia-hide');
 	};
 
+	//Y creamos la funcion para cerrarlos
 	const closeFoldableForm = (form, section) => {
 		const formCurrent = form.current;
 		const sectionCurrent = section.current;
@@ -66,35 +80,48 @@ export default function UserSettings() {
     }, 500)
 	};
 
+	//Creamos una funcion para actualizar los datos del usuario
 	const updateData = async() => {
     const res = await getUserData();
 
     setUserData(res.user);
 	}
 
+	//Creamos una funcion para cambiar de usuario
 	const changeUsername = async(e) => {
+		//Prevenimos recargas prematuras
 		e.preventDefault();
+		//Limpiamos el mensaje de respuesta
 		setUsernameFormMessage("");
+		//Declaramos el formulario
 		const form = usernameForm.current;
 
+		//Obtenemos los valores ingresados
 		const insertedUsername = form.querySelector('input[name="konfia-new-username"]');
 		const insertedPassword = form.querySelector('input[name="konfia-password"]');
 
-		if(insertedUsername !== userData.username || !insertedUsername || !insertedPassword) {
+		if(insertedUsername !== userData.username && insertedUsername.value && insertedPassword.value) {
+			//Si se ingreso el nombre de usuario y no es el mismo entonces ejecutamos la conexion para cambiarlo en el servidor
 			const res = await updateUser(insertedUsername.value, null, insertedPassword.value);
+			//Retornamos la respuesta
 			setUsernameFormMessage(res.message);
+			//Regresamos los valores a vacios
 			insertedUsername.value = "";
 			insertedPassword.value = "";
+			//Actualizamos la informacion del usuario
 			updateData();
 
+			//Cerramos el formulario un poco despues
 			setTimeout(() => {
 				closeFoldableForm(usernameForm, usernameFormSection);
 			}, 200);
 		} else {
-			setUsernameFormMessage("El nombre debe ser uno diferente al que tienes actualmente");
+			//Si llega a ocurrir algo, lo indicamos
+			setUsernameFormMessage("Hubo un error al querer cambiar el nombre del usuario");
 		}
 	};
 
+	//Esta funcion es exactamente lo mismo que lo de arriba
 	const changePassword = async(e) => {
 		e.preventDefault();
 		setPasswordFormMessage("");
@@ -118,7 +145,7 @@ export default function UserSettings() {
 			}
 	};
 
-
+	//Funcion para eliminar la cuenta
 	const deleteAccount = async(e) => {
 		e.preventDefault();
 		setDeleteAccountFormMessage("");
@@ -127,9 +154,12 @@ export default function UserSettings() {
 		const insertedPassword = form.querySelector('input[name="konfia-password"]');
 
 		if(insertedPassword) {
+			//Si se ingreso la contraseña ejecutamos la conexion
       const res = await deleteUser(insertedPassword.value);
+			//mostramos el mensaje
       setDeleteAccountFormMessage(res.message);
-
+		
+			//Sino hay errores hacemos logout
       if(!res.error || res.error === "No hay errores registrados"){ logout(); };
     } else {
       setDeleteAccountFormMessage("No se ingreso la contraseña")

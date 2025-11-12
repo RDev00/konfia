@@ -87,6 +87,7 @@ export default function StoreSection(props) {
 
   const submitPayment = async(e) => {
     e.preventDefault();
+    creditForm.current.classList.add('disabled');
     setMessagePaymentSubmit("");
     
     if (!selectedCredit) return alert("Selecciona un crédito primero");
@@ -111,6 +112,8 @@ export default function StoreSection(props) {
 
   const submitCredit = async(e) => {
     e.preventDefault();
+    creditForm.current.classList.add('disabled');
+
     setMessageCreditSubmit(""); 
     if(!scannedData){
       setMessageCreditSubmit("No se escaneo el QR");
@@ -129,6 +132,8 @@ export default function StoreSection(props) {
       console.error(res.error);
       setMessageCreditSubmit(" Ha ocurrido un error al crear el credito ")
     }
+
+    creditForm.current.classList.remove('disabled');
 
     window.location.reload();
 

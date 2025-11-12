@@ -55,7 +55,7 @@ export default function UserDashboard(){
 						<h1 className="text-2xl md:text-4xl text-sky-950 text-center"> ¡Bienvenido, {userData.username}! </h1>
 	
 						<section className="pt-10">
-							<UserSection UID={userData._id} history={userData.history} />
+							<UserSection UID={userData._id} history={userData.historial} />
 						</section>
 					</main>
 				</>

@@ -36,6 +36,7 @@ export default function UserRegister(){
   //Hacemos el Objeto de body
   const body = {};
 
+  //Ordenamos los nombres de los datos
   inputs.forEach(input => {
     let name = "";
     switch (input.name) {
@@ -60,44 +61,52 @@ export default function UserRegister(){
   if (body.password !== body.confirm) {
     //Sino coinciden se lo indicamos al usuario, eliminamos la clase deshabilitado y cancelamos la funcion
     message.current.innerText = "Las contraseñas no coinciden";
+    //Eliminamos el disabled para que el usuario lo vuelva a intentar
     form.current.classList.remove('disabled');
     return;
-  }
+  } else {
+    //Sino acemos try, para en caso de que haya un error nos lo reporte la app con el catch
+    try {
+      //Ejecutamos la funcion de register
+      const res = await register(body.username, body.usertag, body.password);
+      //Apenas cargue eliminamos el disabled, por si llega a haber un error
+      form.current.classList.remove('disabled');
 
-  try {
-    const res = await register(body.username, body.usertag, body.password);
-    form.current.classList.remove('disabled');
+      if (!res.error || res.error === "No hay errores registrados") {
+        //Sino hay errores (que no deberia) entonces el usuario se loguea
+        const loginRes = await login(body.usertag, body.password);
+        //Si hay token (login exitoso) lo guardamos y redirigimos al dashboard
+        if(loginRes.token){
+        const expirationDate = new Date();
+        expirationDate.setDate(expirationDate.getDate() + 7);
 
-    if (!res.error || res.error === "No hay errores registrados") {
-      const loginRes = await login(body.usertag, body.password);
-      window.location.href = "/user/dashboard";
-			
-			if(loginRes.token){
-			const expirationDate = new Date();
-			expirationDate.setDate(expirationDate.getDate() + 7);
+        document.cookie = `token=${loginRes.token}; expires=${expirationDate.toUTCString()}; path=/; Secure; SameSite=Strict`;
+        localStorage.setItem('userType', 'user');
 
-			document.cookie = `token=${loginRes.token}; expires=${expirationDate.toUTCString()}; path=/; Secure; SameSite=Strict`;
-			localStorage.setItem('userType', 'user');
-
-			setTimeout(() => { window.location.href="/user/dashboard" }, 100)
-		};
-    } else {
-      message.current.innerText = res.message || "Error al registrar el usuario";
+        window.location.href = "/user/dashboard";
+      };
+      } else {
+        //Sino le indicamos al usuario que hubo un error
+        message.current.innerText = res.message || "Error al registrar el usuario";
+      }
+    } catch (err) {
+      //Si llega a haber un error eliminamos el disabled del usuario
+      form.current.classList.remove('disabled');
+      //Retornamos mensaje de error al usuario
+      message.current.innerText = "Ocurrió un error en el servidor";
+      //Retornamos error en consola
+      console.error(err);
     }
-  } catch (err) {
-    form.current.classList.remove('disabled');
-    message.current.innerText = "Ocurrió un error al procesar la solicitud";
-    console.error(err);
   }
 };
 
 
 	return (
 		<LayoutForms>
-			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={(e) => HandleSubmit(e)} redirectionText="¿Ya tienes cuenta?" link="/user/login" linkText="Inicia sesion!">
+      <FormLayout formRef={form} submitText="¡Registrate!" messageRef={message} function={(e) => HandleSubmit(e)} redirectionText="¿Ya tienes cuenta?" link="/user/login" linkText="Inicia sesion!">
 
 				<Input type="text" name="user-username" text="Crea tu nombre de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" />
-				<Input type="text" name="user-usertag" text="Crea tu identificador de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros" pattern="[a-zñ0-9]{2,20}" required="true" />
+				<Input type="text" name="user-usertag" text="Crea tu arroba de usuario" guide="el nombre de usuario debe ir sin espacios y solo letras en minusculas o numeros. Ejemplo: example1234" pattern="[a-zñ0-9._]{2,20}" required="true" />
 				
 				<PasswordInput name="user-password" text="Crea tu contraseña" guide="La contraseña no debe contener espacios" />
 				<PasswordInput name="user-confirm" text="Confirma tu contraseña" guide="La contraseña no debe contener espacios" />
