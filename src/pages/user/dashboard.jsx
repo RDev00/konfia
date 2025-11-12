@@ -45,7 +45,7 @@ export default function UserDashboard(){
 				<> { /* Si hay datos de usuario mostramos el dashboard */ }
 					<Header>
 						{ /* Boton para mandar a la configuracion del usuario */ }
-						<button type="button" className="ml-auto ml-auto invert cursor-pointer" onClick={() => { goToProfile() }}>
+						<button type="button" className="ml-auto ml-auto cursor-pointer" onClick={() => { goToProfile() }}>
 							<Icon path={mdiAccountCircle} size={1.5} />
 						</button>
 					</Header>

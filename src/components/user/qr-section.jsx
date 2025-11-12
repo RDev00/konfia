@@ -1,4 +1,5 @@
 import { QRCodeCanvas } from "qrcode.react";
+import CreditSection from "./credit-section";
 
 export default function QrSection(props) {
   const userId = props.UID;
@@ -17,6 +18,8 @@ export default function QrSection(props) {
       ) : (
         <p className="text-gray-700 text-center my-2 text-lg font-bold"> Cargando... </p>
       ) }
+
+      <CreditSection />
     </section>
   )
 }

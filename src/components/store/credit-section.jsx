@@ -22,7 +22,7 @@ export default function CreditSection(props){
               .filter((credit) => !credit.isActive)
               .map((credit) => (
                 <a key={credit._id} href={`/user/profile/${credit.userId}`} className="flex justify-start items-center hover:text-sky-500">
-                  <p className="text-gray-700">Usuario: {credit.username}</p>
+                  <p className="text-gray-700">Usuario: @{credit.username}</p>
                   <p className="ml-auto text-red-700">Crédito: {credit.credit}</p>
                 </a>
               ))
