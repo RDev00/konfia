@@ -56,11 +56,10 @@ export default function CreditSection() {
             creditsActive.map((credit) => (
               <a
                 key={credit._id}
-                href={`/user/profile/${credit.userId}`}
-                className="flex justify-start items-center hover:text-sky-500"
+                className="flex justify-start items-center"
               >
-                <p className="text-gray-700">Usuario: @{credit.username}</p>
-                <p className="ml-auto text-green-500">Crédito: {credit.credit}</p>
+                <p className="text-gray-700">Tienda: {credit.storename}</p>
+                <p className="ml-auto text-green-700">Crédito: {credit.credit - credit.payment}</p>
               </a>
             ))
           ) : (
@@ -72,36 +71,15 @@ export default function CreditSection() {
             creditsFinished.map((credit) => (
               <a
                 key={credit._id}
-                href={`/user/profile/${credit.userId}`}
-                className="flex justify-start items-center hover:text-sky-500"
+                className="flex justify-start items-center"
               >
-                <p className="text-gray-700">Usuario: @{credit.username}</p>
+                <p className="text-gray-700">Tienda: {credit.storename}</p>
                 <p className="ml-auto text-red-700">Crédito: {credit.credit}</p>
               </a>
             ))
           ) : (
             <p className="text-gray-700">No hay créditos inactivos</p>
           )}
-
-          <div className="flex flex-col items-center justify-center mt-5">
-            {creditsActive.length > 0 ? (
-              <button
-                type="button"
-                className="bg-green-400 px-5 py-1 rounded-md cursor-pointer relative mt-2 duration-200 hover:brightness-110 hover:scale-105 text-sm md:text-base"
-                onClick={() => alert('Registrar nuevo pago')}
-              >
-                Registrar nuevo pago
-              </button>
-            ) : (
-              <button
-                type="button"
-                className="bg-gray-400 px-5 py-1 rounded-md cursor-not-allowed mt-2 text-sm md:text-base"
-                disabled
-              >
-                No hay créditos activos actualmente
-              </button>
-            )}
-          </div>
         </>
       ) : (
         <p className="text-gray-700 text-center mt-5 text-lg font-bold">

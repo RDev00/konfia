@@ -13,7 +13,7 @@ export default function SelectInput(props) {
           .filter(option => option.isActive)
           .map(option => (
             <option key={option._id} value={option._id}>
-              {option.username} — ${option.credit}
+              {option.username} — ${option.credit - option.payment}
             </option>
           ))}
       </select>

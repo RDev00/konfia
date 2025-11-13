@@ -16,13 +16,12 @@ import { mdiAccountCircle, mdiHome, mdiStar } from '@mdi/js';
 
 export default function Profile() {
   const { userId } = useParams();
-  const reviews = JSON.parse(localStorage.getItem('reviews'))
   const [ userData, setUserData ] = useState(null);
   const [ notFoundMessage, setNotFoundMessage ] = useState(null);
   const loadingMessage = useRef(null);
 
   const [ isValid, setIsValid ] = useState(false)
-
+  const [ reviews, setReviews ] = useState(null)
   const rateForm = useRef(null);
   const rateFormSection = useRef(null);
   const [ rateFormMessage, setRateFormMessage ] = useState(null);
@@ -30,6 +29,10 @@ export default function Profile() {
   const [rating, setRating] = useState(1);
 
   useEffect(() => {
+    if(JSON.parse(localStorage.getItem('reviews'))) {
+      setReviews(JSON.parse(localStorage.getItem('reviews')))
+    }
+
     const tokenCookie = getCookie('token');
 		const userType = localStorage.getItem('userType');
     if(tokenCookie && !userType) {

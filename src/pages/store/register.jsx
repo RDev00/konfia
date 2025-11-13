@@ -78,7 +78,7 @@ export default function StoreRegister(){
 
 	return (
 		<LayoutForms>
-			<FormLayout formRef={form} submitText="Iniciar Sesion" messageRef={message} function={(e) => HandleSubmit(e)} redirectionText="¿Ya tienes cuenta?" link="/store/login" linkText="Inicia sesion!">
+			<FormLayout formRef={form} submitText="Registrarme" messageRef={message} function={(e) => HandleSubmit(e)} redirectionText="¿Ya tienes cuenta?" link="/store/login" linkText="Inicia sesion!">
 
 				<Input type="username" name="store-username" text="Crea tu nombre de usuario" guide="El nombre de usuario es libre" />
 				<Input type="email" name="store-email" text="Crea tu correo" guide="El correo no debe contener mayusculas, tambien debe ir todo el texto junto de la siguiente manera: example@konfia.com" pattern="[a-zñ0-9]+@konfia\.com" required="true" />

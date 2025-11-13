@@ -10,7 +10,7 @@ export default function CreditSection(props){
               .map((credit) => (
                 <a key={credit._id} href={`/user/profile/${credit.userId}`} className="flex justify-start items-center hover:text-sky-500">
                   <p className="text-gray-700">Usuario: {credit.username}</p>
-                  <p className="ml-auto text-green-500">Crédito: {credit.credit}</p>
+                  <p className="ml-auto text-green-700">Crédito: {credit.credit - credit.payment}</p>
                 </a>
               ))
           ) : (
