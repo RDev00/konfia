@@ -23,7 +23,9 @@ export default function StoreDashboard(){
 			setHistory(storeData.store.historial);
 			setStorename(storeData.store.username);
 			setCredits(storeData.store.creditsactive);
-			localStorage.setItem('reviews', JSON.stringify(storeData.store.reviews));
+			if(storeData.store.reviews) {
+				localStorage.setItem('reviews', JSON.stringify(storeData.store.reviews));
+			}
 		}
 
 		getData();

@@ -1,7 +1,7 @@
 {
   "name": "invexpress",
   "private": true,
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Backend para el control de los usuarios. Los datos de estos mismos como informacion de productos permanece segura, pues el backend solo guarda el nombre de usuario, y listo.",
   "type": "module",
   "scripts": {
