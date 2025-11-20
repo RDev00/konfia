@@ -22,7 +22,7 @@ export default function PasswordInput(props) {
 			<input 
 				ref={input} 
 				type={inputType}
-				className="backdrop-brightness-90 py-2 px-3 rounded-md text-center focus:outline-none w-full pr-12 invalid:border invalid:border-pink-600 invalid:text-pink-600"
+				className="backdrop-brightness-90 py-2 px-3 rounded-md text-center focus:outline-none w-full pr-12 focus:invalid:border focus:invalid:border-pink-600 focus:invalid:text-pink-600"
 				placeholder={props.text}
 				title={props.guide}
 				name={`konfia-${props.name}`}

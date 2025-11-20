@@ -13,6 +13,7 @@ import Input from "../../components/forms/input";
 
 import Icon from '@mdi/react';
 import { mdiAccountCircle, mdiHome, mdiStar } from '@mdi/js';
+import getStoreData from "../../hooks/get-data.store";
 
 export default function Profile() {
   const { userId } = useParams();
@@ -29,10 +30,6 @@ export default function Profile() {
   const [rating, setRating] = useState(1);
 
   useEffect(() => {
-    if(JSON.parse(localStorage.getItem('reviews'))) {
-      setReviews(JSON.parse(localStorage.getItem('reviews')))
-    }
-
     const tokenCookie = getCookie('token');
 		const userType = localStorage.getItem('userType');
     if(tokenCookie && !userType) {
@@ -41,6 +38,11 @@ export default function Profile() {
 
     async function getData() {
       const data = await getUserData(userId);
+      const token = getCookie('token');
+      if(token) {
+        const storedata = await getStoreData();
+        setReviews(storedata.store.reviews);
+      }
 
       if(data.message !== "La cuenta no existe") {
         setUserData(data.user);
@@ -86,12 +88,16 @@ export default function Profile() {
     e.preventDefault();
     let commentInserted = comment.current.value || null;
 
-    const res = await rate(rating, userData._id, commentInserted);
+    const res = await rate(Number(rating), userData._id, commentInserted);
     
     if(!res.error) {
+      const newUserData = await getUserData(userId);
+      const storedata = await getStoreData();
+      setReviews(storedata.store.reviews);
+      setUserData(newUserData.user);
       setRating(1);
       commentInserted = null;
-      closeFoldableForm(rateForm, rateFormSection)
+      closeFoldableForm(rateForm, rateFormSection);
     }
   };
 
@@ -107,7 +113,7 @@ export default function Profile() {
       ) : ( <></> ) }
       
       { userData ? (
-        <main className="h-[100dvh] bg-white flex flex-col justify-start items-center py-5">
+        <main className="min-h-dvh bg-white flex flex-col justify-start items-center py-8">
           <section className="bg-gray-200	w-[90dvw] max-w-[500px] px-2 py-1 rounded-md flex justify-between">
             <div className="w-[80%] flex items-center gap-2">
               <Icon path={mdiAccountCircle} size={1.4} />
@@ -129,7 +135,7 @@ export default function Profile() {
           </section>
 
           <section className="bg-gray-200	w-[90dvw] max-w-[500px] px-2 py-1 rounded-md flex flex-col justify-center mt-5 py-3">
-            <p className="text-center"> El usuario tiene una calificacion de { userData.calification || 0 } estrellas </p>
+            <p className="text-center"> El usuario tiene una calificacion de { userData.calification.toFixed(0) || 0 } estrellas </p>
           </section>
 
           <section className="bg-gray-200	w-[90dvw] max-w-[500px] px-2 py-1 rounded-md flex flex-col justify-center mt-5 py-3">
@@ -193,7 +199,6 @@ export default function Profile() {
           <a href="/" className="text-white bg-green-500 px-3 py-1 rounded-md hover:bg-green-600"> Regresar al inicio </a>
         </main>
       ) : (<></>) }
-
       
       { notFoundMessage || userData ? ( <Footer /> ) : ( <></> ) }
     </Layout>
