@@ -16,7 +16,7 @@ async function getCreditData(id){
   let creditData = {};
 
   if(!id) {
-    return creditData = { message: "No se pudieron obtener los datos de la cuenta" }
+    return creditData = { message: "No se pudieron obtener los datos del credito" }
   } else {
     creditData = await getData(id);
     return creditData;

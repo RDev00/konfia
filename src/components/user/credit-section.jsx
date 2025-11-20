@@ -24,7 +24,7 @@ export default function CreditSection() {
 
         const finishedDetailed = await Promise.all(
           finished.map(async (credit) => {
-            const newCredit = await getCreditData(credit.credit);
+            const newCredit = await getCreditData(credit);
             return newCredit.credit;
           })
         );
@@ -73,8 +73,8 @@ export default function CreditSection() {
                 key={credit._id}
                 className="flex justify-start items-center"
               >
-                <p className="text-gray-700">Tienda: {credit.storename}</p>
-                <p className="ml-auto text-red-700">Crédito: {credit.credit}</p>
+                <p className="text-gray-700">Tienda: {credit.storename} </p>
+                <p className="ml-auto text-red-700">Crédito: {credit.credit} </p>
               </a>
             ))
           ) : (
